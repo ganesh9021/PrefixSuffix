@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.word-reel-container {
+  width: 200px; /* Set the width of the rectangular box as needed */
+  height: 200px; /* Set the height of the rectangular box as needed */
+  overflow: hidden;
+  border: 1px solid #ccc;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* .rectangularbox{
+    height: 30px;
+    width: auto;
+    background-color: #007bff;
+    position: relative;
+    color: black;
+} */
+
+.word-reel {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  animation: slide 10s linear infinite; /* Adjust the animation duration as needed */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.word {
+  padding: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+}
+
+.word.active {
+  background-color: #007bff; /* Change the background color of the active word */
+  color: white; /* Change the text color of the active word */
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(0%);
   }
-  to {
-    transform: rotate(360deg);
+
+  100% {
+    transform: translateY(-100%);
   }
+}
+
+.canvas-background {
+  background-image: url("/src/Img/backg.jpg");
+  background-size: cover;
 }
