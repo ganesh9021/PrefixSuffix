@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import img from "../Img/download.png";
 
 function GameDemo() {
+  let [result, setResult] = useState(false);
+  const [isImageVisible, setImageVisibility] = useState(false);
+  const [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
   const [state, setState] = useState({
     gravity: 0.0000005,
     speedX: 0,
     speedY: 0,
     x: 450,
-    y: 0,
+    y: -10,
     width: 100,
     height: 50,
   });
@@ -30,20 +33,17 @@ function GameDemo() {
 
   const canvasRef = React.createRef();
   let interval;
+  let pauseTimeout;
+  let isPaused = false;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return; // Ensure canvas is mounted
-
     const context = canvas.getContext("2d");
 
     const startGame = () => {
       interval = setInterval(updateGameArea, 20);
       updateGameArea();
-    };
-
-    const clear = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
     };
 
     const updateGameArea = () => {
@@ -53,22 +53,8 @@ function GameDemo() {
       drawBubbles();
     };
 
-    const update = () => {
-      const { x, y, width, height } = state;
-      const canvas = canvasRef.current;
-
-      if (y + height > canvas.height) {
-        setState((prevState) => ({
-          ...prevState,
-          y: 0,
-        }));
-      }
-
-      context.fillStyle = "red";
-      context.fillRect(x, y, width, height);
-      context.font = "16px Arial";
-      context.fillStyle = "black";
-      context.fillText("Beauty", x + 40, y + 25);
+    const clear = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
     };
 
     const newPos = () => {
@@ -79,6 +65,61 @@ function GameDemo() {
         x: prevState.x + speedX,
         y: prevState.y + speedY,
       }));
+    };
+
+    const update = () => {
+      const canvas = canvasRef.current;
+      const { x: imageX, y: imageY } = imagePosition;
+      const { x, y, width, height } = state;
+      const speed = 0.05; // Adjust the speed as needed
+
+      // Calculate the new positions
+      let newY = y + speed; // Move the cube downwards
+      
+
+      // Calculate new image position
+      const imageSpeed = 0.1; // Adjust the speed as needed
+
+      if (!isPaused) {
+        let newImageY = imageY - imageSpeed; // Move the image upwards
+
+        if (newImageY < canvas.height / 2) {
+          newImageY = canvas.height / 2; // Stop the image at the middle
+          // Pause the image for 2 seconds
+          clearTimeout(pauseTimeout);
+          setTimeout(() => {
+            isPaused = false; // Resume image movement
+            setImagePosition({ x: -200, y: -200 });
+          }, 9000); // 9 seconds in milliseconds
+        }
+
+        setImagePosition({ x: imageX, y: newImageY });
+      }
+
+      setState((prevState) => ({
+        ...prevState,
+        y: newY,
+      }));
+
+      // Clear and redraw everything
+      clear();
+
+      context.fillStyle = "red";
+      context.fillRect(x, newY, width, height);
+      context.font = "16px Arial";
+      context.fillStyle = "black";
+      context.fillText("Beauty", x + 40, newY + 25);
+
+      if (isImageVisible) {
+        const image = new Image();
+        image.src = img;
+        context.drawImage(image, imageX, imageY, 200, 200);
+        context.font = "16px Arial";
+        context.fillStyle = "black";
+        result
+          ? context.fillText("correct!", imageX + 100, imageY + 60)
+          : context.fillText("InCorrect!", imageX + 100, imageY + 60);
+      }
     };
 
     const drawBubbles = () => {
@@ -122,27 +163,14 @@ function GameDemo() {
           // Bubble clicked
           console.log("Bubble clicked:", bubble.text);
           // Handle the click action here
-
-          if (bubble.text == "ful") {
-            const image = new Image();
-            image.src = img; // Set the image source URL
-
-            image.onload = () => {
-              context.drawImage(image, 100, 100, 1000, 600);
-              context.font = "16px Arial";
-              context.fillStyle = "black";
-              context.fillText("Beauty", 140, 125);
-            };
+          if (bubble.text === "ful") {
+            setResult(true);
+            setImageVisibility(true);
+            setImagePosition({ x: 450, y: 500 });
           } else {
-            const image = new Image();
-            image.src = img; // Set the image source URL
-
-            image.onload = () => {
-              context.drawImage(image, 200, 200, 1000, 600);
-              context.font = "16px Arial";
-              context.fillStyle = "black";
-              context.fillText("Beauty", 140, 125);
-            };
+            setResult(false);
+            setImageVisibility(true);
+            setImagePosition({ x: 450, y: 500 });
           }
         }
       });
@@ -180,8 +208,7 @@ function GameDemo() {
 
     return () => {
       clearInterval(interval);
-      canvas.removeEventListener("click", handleBubbleClick);
-      canvas.removeEventListener("mousemove", handleBubbleHover);
+      clearTimeout(pauseTimeout);
     };
   }, [state, bubbles]);
 
