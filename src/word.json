@@ -1,0 +1,17 @@
+[
+  {
+    "word": "powerful",
+    "root": "power",
+    "prefix": "",
+    "suffix": "ful"
+  },
+  { "word": "reading", "root": "read", "prefix": "", "suffix": "ing" },
+  { "word": "played", "root": "play", "prefix": "", "suffix": "ed" },
+  { "word": "friendship", "root": "friend", "prefix": "", "suffix": "ship" },
+  { "word": "quickly", "root": "quick", "prefix": "", "suffix": "ly" },
+  { "word": "happyun", "root": "happy", "prefix": "un", "suffix": "" },
+  { "word": "paidpre", "root": "paid", "prefix": "pre", "suffix": "" },
+  { "word": "ponepost", "root": "pone", "prefix": "post", "suffix": "" },
+  { "word": "bioticanti", "root": "biotic", "prefix": "anti", "suffix": "" },
+  { "word": "waysub", "root": "way", "prefix": "sub", "suffix": "" }
+]

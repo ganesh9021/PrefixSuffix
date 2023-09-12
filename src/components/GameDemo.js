@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import img from "../Img/download.png";
+import wordList from "../word.json";
 
 function GameDemo() {
+  const getRandomWord = () => {
+    return wordList[Math.floor(Math.random() * wordList.length)].root;
+  };
+
+  const canvasRef = useRef(null);
+  let [word, setWord] = useState(getRandomWord());
+  const [isPaused, setIsPaused] = useState(false);
   let [result, setResult] = useState(false);
-  const [isImageVisible, setImageVisibility] = useState(false);
+  let [isImageVisible, setImageVisibility] = useState(false);
   const [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
   const [state, setState] = useState({
-    gravity: 0.0000005,
+    gravity: 1,
     speedX: 0,
     speedY: 0,
     x: 450,
@@ -14,37 +22,28 @@ function GameDemo() {
     width: 100,
     height: 50,
   });
-
   const [bubbles, setBubbles] = useState([
-    { x: 50, y: 50, radius: 30, text: "Anti", isHovered: false },
-    { x: 50, y: 150, radius: 30, text: "Multi", isHovered: false },
-    { x: 50, y: 250, radius: 30, text: "Un", isHovered: false },
-    { x: 50, y: 350, radius: 30, text: "Pre", isHovered: false },
-    { x: 50, y: 450, radius: 30, text: "Mis", isHovered: false },
-    { x: 50, y: 550, radius: 30, text: "Under", isHovered: false },
+    { x: 50, y: 50, radius: 30, text: "anti", isHovered: false },
+    { x: 50, y: 150, radius: 30, text: "aulti", isHovered: false },
+    { x: 50, y: 250, radius: 30, text: "un", isHovered: false },
+    { x: 50, y: 350, radius: 30, text: "pre", isHovered: false },
+    { x: 50, y: 450, radius: 30, text: "sub", isHovered: false },
+    { x: 50, y: 550, radius: 30, text: "post", isHovered: false },
 
     { x: 950, y: 50, radius: 30, text: "ed", isHovered: false },
     { x: 950, y: 150, radius: 30, text: "ing", isHovered: false },
     { x: 950, y: 250, radius: 30, text: "ly", isHovered: false },
     { x: 950, y: 350, radius: 30, text: "ness", isHovered: false },
-    { x: 950, y: 450, radius: 30, text: "tion", isHovered: false },
+    { x: 950, y: 450, radius: 30, text: "ship", isHovered: false },
     { x: 950, y: 550, radius: 30, text: "ful", isHovered: false },
   ]);
 
-  const canvasRef = React.createRef();
-  let interval;
-  let pauseTimeout;
-  let isPaused = false;
+  let interval; // Declare interval variable
+  let pauseTimeout; // Declare pauseTimeout variable
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return; // Ensure canvas is mounted
     const context = canvas.getContext("2d");
-
-    const startGame = () => {
-      interval = setInterval(updateGameArea, 20);
-      updateGameArea();
-    };
 
     const updateGameArea = () => {
       clear();
@@ -69,17 +68,22 @@ function GameDemo() {
 
     const update = () => {
       const canvas = canvasRef.current;
+
       const { x: imageX, y: imageY } = imagePosition;
       const { x, y, width, height } = state;
-      const speed = 0.05; // Adjust the speed as needed
+
+      const cubeSpeed = 0.5; // Adjust the speed as needed
+      const imageSpeed = 0.5; // Adjust the speed as needed
 
       // Calculate the new positions
-      let newY = y + speed; // Move the cube downwards
-      
+      let newY = y + cubeSpeed; // Move the cube downwards
+
+      if (newY > canvas.height) {
+        newY = -10; // Reset the cube's position to the top
+        setWord(getRandomWord());
+      }
 
       // Calculate new image position
-      const imageSpeed = 0.1; // Adjust the speed as needed
-
       if (!isPaused) {
         let newImageY = imageY - imageSpeed; // Move the image upwards
 
@@ -88,11 +92,10 @@ function GameDemo() {
           // Pause the image for 2 seconds
           clearTimeout(pauseTimeout);
           setTimeout(() => {
-            isPaused = false; // Resume image movement
+            setIsPaused(false); // Resume image movement
             setImagePosition({ x: -200, y: -200 });
-          }, 9000); // 9 seconds in milliseconds
+          }, 10000); // 9 seconds in milliseconds
         }
-
         setImagePosition({ x: imageX, y: newImageY });
       }
 
@@ -101,14 +104,13 @@ function GameDemo() {
         y: newY,
       }));
 
-      // Clear and redraw everything
       clear();
 
       context.fillStyle = "red";
       context.fillRect(x, newY, width, height);
       context.font = "16px Arial";
       context.fillStyle = "black";
-      context.fillText("Beauty", x + 40, newY + 25);
+      context.fillText(word, x + 40, newY + 25);
 
       if (isImageVisible) {
         const image = new Image();
@@ -161,13 +163,22 @@ function GameDemo() {
 
         if (distance <= bubble.radius) {
           // Bubble clicked
-          console.log("Bubble clicked:", bubble.text);
+          // console.log("Bubble clicked:", bubble.text);
+          let wordFormed = word + bubble.text;
+          let arr = [];
+
+          wordList.forEach((element) => {
+            arr.push(element.word);
+          });
+
           // Handle the click action here
-          if (bubble.text === "ful") {
+          if (arr.includes(wordFormed)) {
+            clearTimeout(pauseTimeout);
             setResult(true);
             setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
           } else {
+            clearTimeout(pauseTimeout);
             setResult(false);
             setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
@@ -187,7 +198,7 @@ function GameDemo() {
       // Check if the mouse is over any of the bubbles
       const updatedBubbles = bubbles.map((bubble) => {
         const dx = mouseX - bubble.x;
-        <p>Gravity makes the red square fall to the ground and beyond.</p>;
+
         const dy = mouseY - bubble.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
@@ -201,6 +212,11 @@ function GameDemo() {
       setBubbles(updatedBubbles);
     };
 
+    const startGame = () => {
+      interval = setInterval(updateGameArea, 20);
+      updateGameArea();
+    };
+
     canvas.addEventListener("click", handleBubbleClick);
     canvas.addEventListener("mousemove", handleBubbleHover);
 
@@ -209,8 +225,10 @@ function GameDemo() {
     return () => {
       clearInterval(interval);
       clearTimeout(pauseTimeout);
+      canvas.removeEventListener("click", handleBubbleClick);
+      canvas.removeEventListener("mousemove", handleBubbleHover);
     };
-  }, [state, bubbles]);
+  }, [bubbles]);
 
   return (
     <div
