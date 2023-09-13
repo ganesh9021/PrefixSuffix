@@ -12,7 +12,6 @@ function GameDemo() {
   let [word, setWord] = useState(getRandomWord());
   let [isPaused, setIsPaused] = useState(false);
   let [result, setResult] = useState(false);
-  let [isImageVisible, setImageVisibility] = useState(false);
   let [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
   let requestId;
 
@@ -87,15 +86,10 @@ function GameDemo() {
       // Calculate new image position
       if (!isPaused) {
         let newImageY = imageY - imageSpeed; // Move the image upwards
-
         if (newImageY < canvas.height / 2) {
           newImageY = canvas.height / 2; // Stop the image at the middle
-
-          setTimeout(() => {
-            setIsPaused(false);
-          }, 2000); // 9 seconds in milliseconds
+          setTimeout(() => {}, 2000);
         }
-
         setImagePosition({ x: imageX, y: newImageY });
       }
 
@@ -104,24 +98,13 @@ function GameDemo() {
         y: newY,
       }));
 
-      // clear();
+      clear();
 
       context.fillStyle = "red";
       context.fillRect(x, newY, width, height);
       context.font = "16px Arial";
       context.fillStyle = "black";
       context.fillText(word, x + 40, newY + 25);
-
-      // if (isImageVisible) {
-      //   const image = new Image();
-      //   image.src = img;
-      //   context.drawImage(image, imageX, imageY, 200, 200);
-      //   context.font = "16px Arial";
-      //   context.fillStyle = "black";
-      //   result
-      //     ? context.fillText("correct!", imageX + 100, imageY + 60)
-      //     : context.fillText("InCorrect!", imageX + 100, imageY + 60);
-      // }
 
       const image = new Image();
       image.src = img;
@@ -173,21 +156,28 @@ function GameDemo() {
         if (distance <= bubble.radius) {
           // Bubble clicked
           console.log("Bubble clicked:", bubble.text);
-          let wordFormed = word + bubble.text;
-          let arr = [];
+
+          let wordFormed;
+          let word_arr = [];
+          let prefix_arr = [];
+          let suffix_arr = [];
 
           wordList.forEach((element) => {
-            arr.push(element.word);
+            word_arr.push(element.word);
+            prefix_arr.push(element.prefix);
+            suffix_arr.push(element.suffix);
           });
 
+          prefix_arr.includes(bubble.text)
+            ? (wordFormed = bubble.text + word)
+            : (wordFormed = word + bubble.text);
+
           // Handle the click action here
-          if (arr.includes(wordFormed)) {
+          if (word_arr.includes(wordFormed)) {
             setResult(true);
-            setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
           } else {
             setResult(false);
-            setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
           }
         }
@@ -231,7 +221,7 @@ function GameDemo() {
         cancelAnimationFrame(requestId); // This will stop the animation loop
       }
     };
-  }, [state, word, isImageVisible]);
+  }, [state, word]);
 
   return (
     <div
