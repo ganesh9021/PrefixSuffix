@@ -7,18 +7,21 @@ function GameDemo() {
     return wordList[Math.floor(Math.random() * wordList.length)].root;
   };
 
-  const canvasRef = useRef(null);
+  let canvasRef = useRef(null);
+
   let [word, setWord] = useState(getRandomWord());
-  const [isPaused, setIsPaused] = useState(false);
+  let [isPaused, setIsPaused] = useState(false);
   let [result, setResult] = useState(false);
   let [isImageVisible, setImageVisibility] = useState(false);
-  const [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
+  let [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
+  let requestId;
+
   const [state, setState] = useState({
     gravity: 1,
     speedX: 0,
     speedY: 0,
     x: 450,
-    y: -10,
+    y: 0,
     width: 100,
     height: 50,
   });
@@ -38,18 +41,16 @@ function GameDemo() {
     { x: 950, y: 550, radius: 30, text: "ful", isHovered: false },
   ]);
 
-  let interval; // Declare interval variable
-  let pauseTimeout; // Declare pauseTimeout variable
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
-    const updateGameArea = () => {
+    const gameLoop = () => {
       clear();
       newPos();
       update();
       drawBubbles();
+      requestId = requestAnimationFrame(gameLoop); // Request the next frame
     };
 
     const clear = () => {
@@ -72,14 +73,14 @@ function GameDemo() {
       const { x: imageX, y: imageY } = imagePosition;
       const { x, y, width, height } = state;
 
-      const cubeSpeed = 0.5; // Adjust the speed as needed
-      const imageSpeed = 0.5; // Adjust the speed as needed
+      const cubeSpeed = 1.0; // Adjust the speed as needed
+      const imageSpeed = 1.0; // Adjust the speed as needed
 
       // Calculate the new positions
       let newY = y + cubeSpeed; // Move the cube downwards
 
       if (newY > canvas.height) {
-        newY = -10; // Reset the cube's position to the top
+        newY = 0; // Reset the cube's position to the top
         setWord(getRandomWord());
       }
 
@@ -89,13 +90,12 @@ function GameDemo() {
 
         if (newImageY < canvas.height / 2) {
           newImageY = canvas.height / 2; // Stop the image at the middle
-          // Pause the image for 2 seconds
-          clearTimeout(pauseTimeout);
+
           setTimeout(() => {
-            setIsPaused(false); // Resume image movement
-            setImagePosition({ x: -200, y: -200 });
-          }, 10000); // 9 seconds in milliseconds
+            setIsPaused(false);
+          }, 2000); // 9 seconds in milliseconds
         }
+
         setImagePosition({ x: imageX, y: newImageY });
       }
 
@@ -104,7 +104,7 @@ function GameDemo() {
         y: newY,
       }));
 
-      clear();
+      // clear();
 
       context.fillStyle = "red";
       context.fillRect(x, newY, width, height);
@@ -112,16 +112,25 @@ function GameDemo() {
       context.fillStyle = "black";
       context.fillText(word, x + 40, newY + 25);
 
-      if (isImageVisible) {
-        const image = new Image();
-        image.src = img;
-        context.drawImage(image, imageX, imageY, 200, 200);
-        context.font = "16px Arial";
-        context.fillStyle = "black";
-        result
-          ? context.fillText("correct!", imageX + 100, imageY + 60)
-          : context.fillText("InCorrect!", imageX + 100, imageY + 60);
-      }
+      // if (isImageVisible) {
+      //   const image = new Image();
+      //   image.src = img;
+      //   context.drawImage(image, imageX, imageY, 200, 200);
+      //   context.font = "16px Arial";
+      //   context.fillStyle = "black";
+      //   result
+      //     ? context.fillText("correct!", imageX + 100, imageY + 60)
+      //     : context.fillText("InCorrect!", imageX + 100, imageY + 60);
+      // }
+
+      const image = new Image();
+      image.src = img;
+      context.drawImage(image, imageX, imageY, 200, 200);
+      context.font = "16px Arial";
+      context.fillStyle = "black";
+      result
+        ? context.fillText("correct!", imageX + 100, imageY + 60)
+        : context.fillText("InCorrect!", imageX + 100, imageY + 60);
     };
 
     const drawBubbles = () => {
@@ -163,7 +172,7 @@ function GameDemo() {
 
         if (distance <= bubble.radius) {
           // Bubble clicked
-          // console.log("Bubble clicked:", bubble.text);
+          console.log("Bubble clicked:", bubble.text);
           let wordFormed = word + bubble.text;
           let arr = [];
 
@@ -173,12 +182,10 @@ function GameDemo() {
 
           // Handle the click action here
           if (arr.includes(wordFormed)) {
-            clearTimeout(pauseTimeout);
             setResult(true);
             setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
           } else {
-            clearTimeout(pauseTimeout);
             setResult(false);
             setImageVisibility(true);
             setImagePosition({ x: 450, y: 500 });
@@ -212,23 +219,19 @@ function GameDemo() {
       setBubbles(updatedBubbles);
     };
 
-    const startGame = () => {
-      interval = setInterval(updateGameArea, 20);
-      updateGameArea();
-    };
-
     canvas.addEventListener("click", handleBubbleClick);
     canvas.addEventListener("mousemove", handleBubbleHover);
 
-    startGame();
+    requestAnimationFrame(gameLoop);
 
     return () => {
-      clearInterval(interval);
-      clearTimeout(pauseTimeout);
       canvas.removeEventListener("click", handleBubbleClick);
       canvas.removeEventListener("mousemove", handleBubbleHover);
+      if (requestId) {
+        cancelAnimationFrame(requestId); // This will stop the animation loop
+      }
     };
-  }, [bubbles]);
+  }, [state, word, isImageVisible]);
 
   return (
     <div
