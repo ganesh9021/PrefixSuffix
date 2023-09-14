@@ -3,8 +3,24 @@ import img from "../Img/download.png";
 import wordList from "../word.json";
 
 function GameDemo() {
+  
+
   const getRandomWord = () => {
-    return wordList[Math.floor(Math.random() * wordList.length)].root;
+    let rootWordArray = [];
+    let randomIndex = Math.floor(Math.random() * wordList.length);
+    let rootWord = wordList[randomIndex].root;
+    if (rootWordArray.length !== 10) {
+      if (rootWordArray.includes(rootWord)) {
+        getRandomWord();
+      } else {
+        rootWordArray.push(rootWord);
+      }
+    } else {
+      rootWordArray = [];
+      getRandomWord();
+    }
+
+    return rootWord;
   };
 
   let canvasRef = useRef(null);
@@ -12,7 +28,11 @@ function GameDemo() {
   let [word, setWord] = useState(getRandomWord());
   let [isPaused, setIsPaused] = useState(false);
   let [result, setResult] = useState(false);
-  let [imagePosition, setImagePosition] = useState({ x: 450, y: 500 });
+  //Image is far away from canvas bcuz i wanted to show it only on click.
+  let [imagePosition, setImagePosition] = useState({
+    x: 450,
+    y: 2000,
+  });
   let requestId;
 
   const [state, setState] = useState({
@@ -78,17 +98,14 @@ function GameDemo() {
       // Calculate the new positions
       let newY = y + cubeSpeed; // Move the cube downwards
 
-      if (newY > canvas.height) {
-        newY = 0; // Reset the cube's position to the top
-        setWord(getRandomWord());
-      }
-
       // Calculate new image position
       if (!isPaused) {
         let newImageY = imageY - imageSpeed; // Move the image upwards
         if (newImageY < canvas.height / 2) {
           newImageY = canvas.height / 2; // Stop the image at the middle
-          setTimeout(() => {}, 2000);
+          setTimeout(() => {
+            setImagePosition({ x: 450, y: 1500 });
+          }, 1000);
         }
         setImagePosition({ x: imageX, y: newImageY });
       }
@@ -106,14 +123,35 @@ function GameDemo() {
       context.fillStyle = "black";
       context.fillText(word, x + 40, newY + 25);
 
-      const image = new Image();
+      let image = new Image();
       image.src = img;
       context.drawImage(image, imageX, imageY, 200, 200);
       context.font = "16px Arial";
       context.fillStyle = "black";
-      result
-        ? context.fillText("correct!", imageX + 100, imageY + 60)
-        : context.fillText("InCorrect!", imageX + 100, imageY + 60);
+
+      if (newY > canvas.height) {
+        
+        newY = 0; // Reset the cube's position to the top
+        setWord(getRandomWord());
+        if (newY == 0) {
+          setImagePosition((prevState) => ({ ...prevState, x: 450, y: 1500 }));
+        }
+      }
+
+      if (result) {
+        // const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+        // gradient.addColorStop("0", "magenta");
+        // gradient.addColorStop("0.5", "blue");
+        // gradient.addColorStop("1.0", "red");
+        // context.fillStyle = gradient;
+        context.fillStyle = "green";
+        context.fillText("Correct!", imageX + 100, imageY + 50);
+        context.strokeText(word, imageX + 100, imageY + 70);
+      } else {
+        context.fillStyle = "red";
+        context.fillText("Incorrect!", imageX + 100, imageY + 50);
+        context.strokeText(word, imageX + 100, imageY + 70);
+      }
     };
 
     const drawBubbles = () => {
@@ -174,11 +212,13 @@ function GameDemo() {
 
           // Handle the click action here
           if (word_arr.includes(wordFormed)) {
+            setWord(wordFormed);
             setResult(true);
-            setImagePosition({ x: 450, y: 500 });
+            setImagePosition({ x: 450, y: 600 });
           } else {
+            setWord(wordFormed);
             setResult(false);
-            setImagePosition({ x: 450, y: 500 });
+            setImagePosition({ x: 450, y: 600 });
           }
         }
       });
