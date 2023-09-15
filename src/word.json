@@ -1,17 +1,23 @@
 [
-  {
-    "word": "powerful",
-    "root": "power",
-    "prefix": "",
-    "suffix": "ful"
-  },
-  { "word": "reading", "root": "read", "prefix": "", "suffix": "ing" },
-  { "word": "played", "root": "play", "prefix": "", "suffix": "ed" },
+  { "word": "antibody", "root": "body", "prefix": "anti", "suffix": "" },
+  { "word": "antioxidant", "root": "oxidant", "prefix": "anti", "suffix": "" },
+  { "word": "dispose", "root": "pose", "prefix": "dis", "suffix": "" },
+  { "word": "dissolute", "root": "solute", "prefix": "dis", "suffix": "" },
+  { "word": "unanimous", "root": "animous", "prefix": "un", "suffix": "" },
+  { "word": "unwitting", "root": "witting", "prefix": "un", "suffix": "" },
+  { "word": "subaudition", "root": "audition", "prefix": "sub", "suffix": "" },
+  { "word": "subduct", "root": "duct", "prefix": "sub", "suffix": "" },
+  { "word": "prescient", "root": "scient", "prefix": "pre", "suffix": "" },
+  { "word": "postmortem", "root": "mortem", "prefix": "post", "suffix": "" },
+
+  { "word": "powerful", "root": "power", "prefix": "", "suffix": "ful" },
+  { "word": "blissful", "root": "bliss", "prefix": "", "suffix": "ful" },
   { "word": "friendship", "root": "friend", "prefix": "", "suffix": "ship" },
-  { "word": "quickly", "root": "quick", "prefix": "", "suffix": "ly" },
-  { "word": "unhappy", "root": "happy", "prefix": "un", "suffix": "" },
-  { "word": "prepaid", "root": "paid", "prefix": "pre", "suffix": "" },
-  { "word": "postpone", "root": "pone", "prefix": "post", "suffix": "" },
-  { "word": "antibiotic", "root": "biotic", "prefix": "anti", "suffix": "" },
-  { "word": "subway", "root": "way", "prefix": "sub", "suffix": "" }
+  { "word": "citizenship", "root": "citizen", "prefix": "", "suffix": "ship" },
+  { "word": "comfortable", "root": "comfort", "prefix": "", "suffix": "able" },
+  { "word": "comfortable", "root": "comfort", "prefix": "", "suffix": "able" },
+  { "word": "sweetness", "root": "sweet", "prefix": "", "suffix": "ness" },
+  { "word": "greatness", "root": "great", "prefix": "", "suffix": "ness" },
+  { "word": "covering", "root": "cover", "prefix": "", "suffix": "ing" },
+  { "word": "placement", "root": "place", "prefix": "", "suffix": "ment" }
 ]
