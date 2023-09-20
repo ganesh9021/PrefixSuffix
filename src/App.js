@@ -5,12 +5,18 @@ import DragDrop from "./components/DragDrop";
 import GameDemo from "./components/GameDemo";
 import Trial from "./components/Trial";
 import "./App.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Homepage from "./components/Homepage";
 
 function App() {
   return (
-    <div className="App">
-      <Trial />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/game" element={<GameDemo />} />
+        <Route path="/trial" element={<Trial />} />
+      </Routes>
+    </Router>
   );
 }
 

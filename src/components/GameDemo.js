@@ -1,10 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import img from "../Img/download.png";
-import congo from "../Img/congratulations.jpg";
 import wordList from "../word.json";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import gamesound from "../sound/gamesound.wav";
+import correctanswer from "../sound/correctanswer.wav";
+import wronganswer from "../sound/wronganswer.wav";
+import gameover from "../sound/gameover.wav";
 
 function GameDemo() {
+  let navigate = useNavigate();
   let canvasRef = useRef(null);
+
   let [word, setWord] = useState("power");
   let [isPaused, setIsPaused] = useState(false);
   let [result, setResult] = useState(false);
@@ -72,10 +79,14 @@ function GameDemo() {
     const update = () => {
       const canvas = canvasRef.current;
 
+      if (!canvas) {
+        return; // Return early if canvasRef is null or undefined
+      }
+
       const { x: imageX, y: imageY } = imagePosition;
       const { x, y, width, height } = state;
 
-      const cubeSpeed = 5.0; // Adjust the speed as needed
+      const cubeSpeed = 1.0; // Adjust the speed as needed
       const imageSpeed = 2.0; // Adjust the speed as needed
 
       // Calculate the new positions
@@ -123,16 +134,11 @@ function GameDemo() {
         newY = 0; // Reset the cube's position to the top
         getRandomWord();
         if (newY == 0) {
-          setImagePosition((prevState) => ({ ...prevState, x: 450, y: 1500 }));
+          setImagePosition((prevState) => ({ ...prevState, x: 450, y: 5000 }));
         }
       }
 
       if (result) {
-        // const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
-        // gradient.addColorStop("0", "magenta");
-        // gradient.addColorStop("0.5", "blue");
-        // gradient.addColorStop("1.0", "red");
-        // context.fillStyle = gradient;
         context.fillStyle = "green";
         context.fillText("Correct!", imageX + 100, imageY + 50);
         context.strokeText(word, imageX + 100, imageY + 70);
@@ -201,12 +207,14 @@ function GameDemo() {
 
           // Handle the click action here
           if (word_arr.includes(wordFormed)) {
+            playAudio(correctanswer);
             setWord(wordFormed);
             setResult(true);
             let newScore = score + 1;
             setScore(newScore);
             setImagePosition({ x: 450, y: 600 });
           } else {
+            playAudio(wronganswer);
             setWord(wordFormed);
             setResult(false);
             setImagePosition({ x: 450, y: 600 });
@@ -241,8 +249,6 @@ function GameDemo() {
     };
 
     const getRandomWord = () => {
-      
-
       let randomIndex = Math.floor(Math.random() * wordList.length);
       let randomWord = wordList[randomIndex].root;
       console.log(randomWordArray);
@@ -252,28 +258,30 @@ function GameDemo() {
         } else {
           setWord(randomWord);
           setRandomWordArray((prevState) => [...prevState, randomWord]);
-          //return randomWordArray[randomWordArray.length-1];
         }
       } else {
-        setRandomWordArray(() => ["power"]);
-        const gif = new Image();
-        gif.src = congo;
-
-        const zIndex = 1;
-         
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        const imageWithZIndex = { image: gif, zIndex };
-
-        const images = [imageWithZIndex];
-
-        images.sort((a, b) => a.zIndex - b.zIndex);
-          // Draw the loaded image onto the canvas
-          images.forEach((imageObj) => {
-            context.drawImage(imageObj.image, 0, 0, 200, 200);
+        setState({});
+        if (score < 5) {
+          Swal.fire(
+            "Need to improve!",
+            `Your score is ${score}`,
+            "warning"
+          ).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
           });
-          
-        
+          playAudio(gameover);
+        } else {
+          Swal.fire("Good job!", `Your score is ${score}`, "success").then(
+            (result) => {
+              if (result.isConfirmed) {
+                navigate("/");
+              }
+            }
+          );
+          playAudio(gameover);
+        }
       }
     };
 
@@ -290,6 +298,11 @@ function GameDemo() {
       }
     };
   }, [state, word]);
+
+  const playAudio = (soundsorce) => {
+    const audioElement = new Audio(soundsorce);
+    audioElement.play();
+  };
 
   return (
     <div
