@@ -1,0 +1,11 @@
+.canvas-background{
+    background-image: url("/src/img/backg.jpg");
+    background-size: cover;
+}
+
+.custom-toast-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
