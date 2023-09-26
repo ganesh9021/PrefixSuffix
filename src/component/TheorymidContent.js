@@ -20,7 +20,7 @@ const TheorymidContent = () => {
       <div className="fw-bolder">Suffix</div>
       <div>
         <ul>
-          <li>An affix occurring at the end of a word, base, or phrase.</li>
+          <li>Suffix is an affix occurring at the end of a word, base, or phrase.</li>
         </ul>
       </div>
     </div>

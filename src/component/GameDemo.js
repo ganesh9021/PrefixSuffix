@@ -33,6 +33,26 @@ function GameDemo() {
   let [congratulationsMessage, setcongratulationsMessage] = useState(false);
   //checking whether user click on bubble or not during a cycle.
   const [clickedDuringCycle, setClickedDuringCycle] = useState(false);
+  //prefix array
+  const [prefixArray, setPrefixArray] = useState([
+    "anti",
+    "dis",
+    "un",
+    "sub",
+    "pre",
+    "post",
+    "inter",
+  ]);
+  //suffix array
+  const [suffixArray, setSuffixArray] = useState([
+    "ment",
+    "ing",
+    "able",
+    "ness",
+    "ship",
+    "ful",
+    "tion",
+  ]);
 
   //Image is far away from canvas bcuz i wanted to show it only on click.
   let [imagePosition, setImagePosition] = useState({
@@ -50,22 +70,25 @@ function GameDemo() {
     width: 100,
     height: 50,
   });
-  const [bubbles, setBubbles] = useState([
-    { x: 50, y: 40, radius: 30, text: "anti", isHovered: false },
-    { x: 50, y: 120, radius: 30, text: "dis", isHovered: false },
-    { x: 50, y: 200, radius: 30, text: "un", isHovered: false },
-    { x: 50, y: 280, radius: 30, text: "sub", isHovered: false },
-    { x: 50, y: 360, radius: 30, text: "pre", isHovered: false },
-    { x: 50, y: 440, radius: 30, text: "post", isHovered: false },
-    { x: 50, y: 520, radius: 30, text: "inter", isHovered: false },
 
-    { x: 1110, y: 40, radius: 30, text: "ment", isHovered: false },
-    { x: 1110, y: 120, radius: 30, text: "ing", isHovered: false },
-    { x: 1110, y: 200, radius: 30, text: "able", isHovered: false },
-    { x: 1110, y: 280, radius: 30, text: "ness", isHovered: false },
-    { x: 1110, y: 360, radius: 30, text: "ship", isHovered: false },
-    { x: 1110, y: 440, radius: 30, text: "ful", isHovered: false },
-    { x: 1110, y: 520, radius: 30, text: "tion", isHovered: false },
+  shuffleWords(prefixArray);
+  shuffleWords(suffixArray);
+  const [bubbles, setBubbles] = useState([
+    { x: 50, y: 40, radius: 30, text: prefixArray[0], isHovered: false },
+    { x: 50, y: 120, radius: 30, text: prefixArray[1], isHovered: false },
+    { x: 50, y: 200, radius: 30, text: prefixArray[2], isHovered: false },
+    { x: 50, y: 280, radius: 30, text: prefixArray[3], isHovered: false },
+    { x: 50, y: 360, radius: 30, text: prefixArray[4], isHovered: false },
+    { x: 50, y: 440, radius: 30, text: prefixArray[5], isHovered: false },
+    { x: 50, y: 520, radius: 30, text: prefixArray[6], isHovered: false },
+
+    { x: 1110, y: 40, radius: 30, text: suffixArray[0], isHovered: false },
+    { x: 1110, y: 120, radius: 30, text: suffixArray[1], isHovered: false },
+    { x: 1110, y: 200, radius: 30, text: suffixArray[2], isHovered: false },
+    { x: 1110, y: 280, radius: 30, text: suffixArray[3], isHovered: false },
+    { x: 1110, y: 360, radius: 30, text: suffixArray[4], isHovered: false },
+    { x: 1110, y: 440, radius: 30, text: suffixArray[5], isHovered: false },
+    { x: 1110, y: 520, radius: 30, text: suffixArray[6], isHovered: false },
   ]);
 
   useEffect(() => {
@@ -370,6 +393,13 @@ function GameDemo() {
       }
     };
   }, [state, word]);
+
+  function shuffleWords(wordArray) {
+    for (let i = wordArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
+    }
+  }
 
   return (
     <div
