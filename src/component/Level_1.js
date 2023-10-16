@@ -1,10 +1,9 @@
 import { OlabsPage } from "english-olabsnxtg-library";
 import React from "react";
 import QuizPopupContent from "./QuizPopupContent";
+import Level1MidContent from "./Level1MidContent";
 
-import Level_1 from "./Level_1";
-
-const MainPage = () => {
+const Level_1 = () => {
   return (
     <>
       <OlabsPage
@@ -16,7 +15,7 @@ const MainPage = () => {
         RSM_theory_tt="Theory"
         RSM_vivavoce_tt="Viva voce"
         RSM_ok="OK"
-        M_midcontent_comp={<Level_1 />}
+        M_midcontent_comp={<Level1MidContent />}
         RSM_Intruc_popup_title_string="Instructions for quiz"
         RSM_QuizPopupContent_comp={<QuizPopupContent />}
       />
@@ -24,4 +23,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Level_1;

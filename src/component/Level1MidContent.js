@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef, Fragment } from "react";
 import img from "../img/download.png";
 import wordList from "../word.json";
@@ -10,48 +11,42 @@ import gameover from "../sound/gameover.wav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/style.css";
+import GoldCoinsEarned from "./GoldCoinsEarned";
 
-function GameDemo() {
+const Level1MidContent = () => {
   let navigate = useNavigate();
   let canvasRef = useRef(null);
   //cube and image speed
   let [cubeSpeed, setCubeSpeed] = useState(1.0);
-  let [imageSpeed, setImageSpeed] = useState(5.0);
+  let [imageSpeed, setImageSpeed] = useState(4.0);
   //making bubbles disable after one click
   const [clickDisabled, setClickDisabled] = useState(false);
   //setting random word on cube
-  let [word, setWord] = useState("power");
+  let [word, setWord] = useState("known");
   //checking whether cube is paused or nor
   let [isPaused, setIsPaused] = useState(false);
   //checking result is correct or incorrect
   let [result, setResult] = useState(false);
   //array of random words(10)
-  let [randomWordArray, setRandomWordArray] = useState(["power"]);
+  let [randomWordArray, setRandomWordArray] = useState(["known"]);
   //score out of 10
   let [score, setScore] = useState(0);
   //react confetti activation or deactivation
   let [congratulationsMessage, setcongratulationsMessage] = useState(false);
   //checking whether user click on bubble or not during a cycle.
   const [clickedDuringCycle, setClickedDuringCycle] = useState(false);
+  //random number
+  let [randomNumber, setRandomNumber] = useState(0);
+  //coin message
+  let [coinMessage, setCoinMessage] = useState(false);
   //prefix array
   const [prefixArray, setPrefixArray] = useState([
-    "anti",
-    "dis",
-    "un",
-    "sub",
-    "pre",
-    "post",
-    "inter",
-  ]);
-  //suffix array
-  const [suffixArray, setSuffixArray] = useState([
-    "ment",
-    "ing",
-    "able",
-    "ness",
-    "ship",
-    "ful",
-    "tion",
+    "Un",
+    "Dis",
+    "Re",
+    "Pre",
+    "Sub",
+    "Co",
   ]);
 
   //Image is far away from canvas bcuz i wanted to show it only on click.
@@ -72,23 +67,13 @@ function GameDemo() {
   });
 
   shuffleWords(prefixArray);
-  shuffleWords(suffixArray);
   const [bubbles, setBubbles] = useState([
-    { x: 50, y: 40, radius: 30, text: prefixArray[0], isHovered: false },
-    { x: 50, y: 120, radius: 30, text: prefixArray[1], isHovered: false },
-    { x: 50, y: 200, radius: 30, text: prefixArray[2], isHovered: false },
-    { x: 50, y: 280, radius: 30, text: prefixArray[3], isHovered: false },
-    { x: 50, y: 360, radius: 30, text: prefixArray[4], isHovered: false },
-    { x: 50, y: 440, radius: 30, text: prefixArray[5], isHovered: false },
-    { x: 50, y: 520, radius: 30, text: prefixArray[6], isHovered: false },
-
-    { x: 1110, y: 40, radius: 30, text: suffixArray[0], isHovered: false },
-    { x: 1110, y: 120, radius: 30, text: suffixArray[1], isHovered: false },
-    { x: 1110, y: 200, radius: 30, text: suffixArray[2], isHovered: false },
-    { x: 1110, y: 280, radius: 30, text: suffixArray[3], isHovered: false },
-    { x: 1110, y: 360, radius: 30, text: suffixArray[4], isHovered: false },
-    { x: 1110, y: 440, radius: 30, text: suffixArray[5], isHovered: false },
-    { x: 1110, y: 520, radius: 30, text: suffixArray[6], isHovered: false },
+    { x: 50, y: 120, radius: 30, text: prefixArray[0], isHovered: false },
+    { x: 50, y: 280, radius: 30, text: prefixArray[1], isHovered: false },
+    { x: 50, y: 440, radius: 30, text: prefixArray[2], isHovered: false },
+    { x: 1110, y: 120, radius: 30, text: prefixArray[3], isHovered: false },
+    { x: 1110, y: 280, radius: 30, text: prefixArray[4], isHovered: false },
+    { x: 1110, y: 440, radius: 30, text: prefixArray[5], isHovered: false },
   ]);
 
   useEffect(() => {
@@ -155,7 +140,6 @@ function GameDemo() {
       context.font = "16px Arial";
       context.fillStyle = "black";
       context.fillText(word, x + 50, newY + 25);
-     
 
       //code of score
       context.font = "32px Arial";
@@ -193,11 +177,25 @@ function GameDemo() {
       if (result) {
         context.fillStyle = "green";
         context.fillText("Correct!", imageX + 160, imageY + 50);
-        context.strokeText(word, imageX + 160, imageY + 70);
+        context.strokeText(
+          `Root -> ${wordList.level1[randomNumber].root} -> ${wordList.level1[randomNumber].rootmeaning}`,
+          imageX + 160,
+          imageY + 70
+        );
+        context.strokeText(
+          `Word -> ${word} -> ${wordList.level1[randomNumber].Prefixrootmeaning}`,
+          imageX + 160,
+          imageY + 90
+        );
       } else {
         context.fillStyle = "red";
         context.fillText("Incorrect!", imageX + 160, imageY + 50);
         context.strokeText(word, imageX + 160, imageY + 70);
+        context.strokeText(
+          "Meaningful word not formed.",
+          imageX + 160,
+          imageY + 90
+        );
       }
     };
 
@@ -263,26 +261,13 @@ function GameDemo() {
           let wordFormed = "";
           let word_arr = [];
           let prefix_arr = [];
-          let suffix_arr = [];
 
-          wordList.forEach((element) => {
-            word_arr.push(element.word1);
-            word_arr.push(element.word2);
-            word_arr.push(element.word3);
-            word_arr.push(element.word4);
-
-            prefix_arr.push(element.prefix1);
-            prefix_arr.push(element.prefix2);
-            prefix_arr.push(element.prefix3);
-
-            suffix_arr.push(element.suffix1);
-            suffix_arr.push(element.suffix2);
+          wordList.level1.forEach((element) => {
+            word_arr.push(element.word);
+            prefix_arr.push(element.prefix);
           });
-          console.log(word_arr)
 
-          prefix_arr.includes(bubble.text)
-            ? (wordFormed = bubble.text + word)
-            : (wordFormed = word + bubble.text);
+          wordFormed = bubble.text + word;
 
           // Handle the click action here
           if (word_arr.includes(wordFormed)) {
@@ -333,40 +318,43 @@ function GameDemo() {
     };
 
     const getRandomWord = () => {
-      let randomIndex = Math.floor(Math.random() * wordList.length);
-      let randomWord = wordList[randomIndex].root;
+      let randomIndex = Math.floor(Math.random() * wordList.level1.length);
+      let randomWord = wordList.level1[randomIndex].root;
       //console.log(randomWordArray);
       if (randomWordArray.length !== 10) {
         if (randomWordArray.includes(randomWord)) {
           getRandomWord();
         } else {
           setWord(randomWord);
+          setRandomNumber(randomIndex);
           setRandomWordArray((prevState) => [...prevState, randomWord]);
         }
       } else {
         setState({});
         playAudio(gameover);
-        if (score < 5) {
+        if (score < 6) {
           Swal.fire({
             title: "Need to improve!",
             text: `Your score is ${score}`,
             icon: "warning",
-            confirmButtonText: "Restart",
+            confirmButtonText: "Try again",
           }).then((result) => {
+            window.location.reload();
             if (result.isConfirmed) {
-              navigate("/");
+              navigate("/level1");
             }
           });
         } else {
+          setCoinMessage(true);
           playAudio(gameover);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
             icon: "success",
-            confirmButtonText: "Restart",
+            confirmButtonText: "Level-2",
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate("/");
+              navigate("/level2");
             }
           });
         }
@@ -438,8 +426,10 @@ function GameDemo() {
       <div className="custom-toast-container">
         <ToastContainer />
       </div>
+
+      {coinMessage && <GoldCoinsEarned coins={100} />}
     </div>
   );
-}
+};
 
-export default GameDemo;
+export default Level1MidContent;

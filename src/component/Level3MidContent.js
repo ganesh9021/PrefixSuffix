@@ -10,48 +10,52 @@ import gameover from "../sound/gameover.wav";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/style.css";
+import GoldCoinsEarned from "./GoldCoinsEarned";
 
-function GameDemo() {
+const Level3MidContent = () => {
   let navigate = useNavigate();
   let canvasRef = useRef(null);
+  //coin message
+  let [coinMessage, setCoinMessage] = useState(false);
+
   //cube and image speed
   let [cubeSpeed, setCubeSpeed] = useState(1.0);
-  let [imageSpeed, setImageSpeed] = useState(5.0);
+  let [imageSpeed, setImageSpeed] = useState(4.0);
   //making bubbles disable after one click
   const [clickDisabled, setClickDisabled] = useState(false);
   //setting random word on cube
-  let [word, setWord] = useState("power");
+  let [word, setWord] = useState("biotic");
   //checking whether cube is paused or nor
   let [isPaused, setIsPaused] = useState(false);
   //checking result is correct or incorrect
   let [result, setResult] = useState(false);
   //array of random words(10)
-  let [randomWordArray, setRandomWordArray] = useState(["power"]);
+  let [randomWordArray, setRandomWordArray] = useState(["biotic"]);
   //score out of 10
   let [score, setScore] = useState(0);
   //react confetti activation or deactivation
   let [congratulationsMessage, setcongratulationsMessage] = useState(false);
   //checking whether user click on bubble or not during a cycle.
   const [clickedDuringCycle, setClickedDuringCycle] = useState(false);
+  //random number
+  let [randomNumber, setRandomNumber] = useState(0);
   //prefix array
   const [prefixArray, setPrefixArray] = useState([
-    "anti",
-    "dis",
-    "un",
-    "sub",
-    "pre",
-    "post",
-    "inter",
+    "Anti",
+    "Over",
+    "Under",
+    "Multi",
+    "Auto",
+    "Post",
   ]);
   //suffix array
   const [suffixArray, setSuffixArray] = useState([
     "ment",
-    "ing",
+    "less",
     "able",
     "ness",
     "ship",
-    "ful",
-    "tion",
+    "hood",
   ]);
 
   //Image is far away from canvas bcuz i wanted to show it only on click.
@@ -74,21 +78,19 @@ function GameDemo() {
   shuffleWords(prefixArray);
   shuffleWords(suffixArray);
   const [bubbles, setBubbles] = useState([
-    { x: 50, y: 40, radius: 30, text: prefixArray[0], isHovered: false },
-    { x: 50, y: 120, radius: 30, text: prefixArray[1], isHovered: false },
-    { x: 50, y: 200, radius: 30, text: prefixArray[2], isHovered: false },
-    { x: 50, y: 280, radius: 30, text: prefixArray[3], isHovered: false },
-    { x: 50, y: 360, radius: 30, text: prefixArray[4], isHovered: false },
-    { x: 50, y: 440, radius: 30, text: prefixArray[5], isHovered: false },
-    { x: 50, y: 520, radius: 30, text: prefixArray[6], isHovered: false },
+    { x: 50, y: 50, radius: 30, text: prefixArray[0], isHovered: false },
+    { x: 50, y: 140, radius: 30, text: prefixArray[1], isHovered: false },
+    { x: 50, y: 230, radius: 30, text: prefixArray[2], isHovered: false },
+    { x: 50, y: 320, radius: 30, text: prefixArray[3], isHovered: false },
+    { x: 50, y: 410, radius: 30, text: prefixArray[4], isHovered: false },
+    { x: 50, y: 500, radius: 30, text: prefixArray[5], isHovered: false },
 
-    { x: 1110, y: 40, radius: 30, text: suffixArray[0], isHovered: false },
-    { x: 1110, y: 120, radius: 30, text: suffixArray[1], isHovered: false },
-    { x: 1110, y: 200, radius: 30, text: suffixArray[2], isHovered: false },
-    { x: 1110, y: 280, radius: 30, text: suffixArray[3], isHovered: false },
-    { x: 1110, y: 360, radius: 30, text: suffixArray[4], isHovered: false },
-    { x: 1110, y: 440, radius: 30, text: suffixArray[5], isHovered: false },
-    { x: 1110, y: 520, radius: 30, text: suffixArray[6], isHovered: false },
+    { x: 1110, y: 50, radius: 30, text: suffixArray[0], isHovered: false },
+    { x: 1110, y: 140, radius: 30, text: suffixArray[1], isHovered: false },
+    { x: 1110, y: 230, radius: 30, text: suffixArray[2], isHovered: false },
+    { x: 1110, y: 320, radius: 30, text: suffixArray[3], isHovered: false },
+    { x: 1110, y: 410, radius: 30, text: suffixArray[4], isHovered: false },
+    { x: 1110, y: 500, radius: 30, text: suffixArray[5], isHovered: false },
   ]);
 
   useEffect(() => {
@@ -155,7 +157,6 @@ function GameDemo() {
       context.font = "16px Arial";
       context.fillStyle = "black";
       context.fillText(word, x + 50, newY + 25);
-     
 
       //code of score
       context.font = "32px Arial";
@@ -193,11 +194,27 @@ function GameDemo() {
       if (result) {
         context.fillStyle = "green";
         context.fillText("Correct!", imageX + 160, imageY + 50);
-        context.strokeText(word, imageX + 160, imageY + 70);
+        context.strokeText(
+          `Root -> ${wordList.level3[randomNumber].root} -> ${
+            wordList.level3[randomNumber][wordList.level3[randomNumber].root]
+          }`,
+          imageX + 160,
+          imageY + 70
+        );
+        context.strokeText(
+          `Word -> ${word} -> ${wordList.level3[randomNumber][word]}`,
+          imageX + 160,
+          imageY + 90
+        );
       } else {
         context.fillStyle = "red";
         context.fillText("Incorrect!", imageX + 160, imageY + 50);
         context.strokeText(word, imageX + 160, imageY + 70);
+        context.strokeText(
+          "Meaningful word not formed.",
+          imageX + 160,
+          imageY + 90
+        );
       }
     };
 
@@ -265,20 +282,13 @@ function GameDemo() {
           let prefix_arr = [];
           let suffix_arr = [];
 
-          wordList.forEach((element) => {
-            word_arr.push(element.word1);
-            word_arr.push(element.word2);
-            word_arr.push(element.word3);
-            word_arr.push(element.word4);
+          wordList.level3.forEach((element) => {
+            word_arr.push(element.word);
 
-            prefix_arr.push(element.prefix1);
-            prefix_arr.push(element.prefix2);
-            prefix_arr.push(element.prefix3);
+            prefix_arr.push(element.prefix);
 
-            suffix_arr.push(element.suffix1);
-            suffix_arr.push(element.suffix2);
+            suffix_arr.push(element.suffix);
           });
-          console.log(word_arr)
 
           prefix_arr.includes(bubble.text)
             ? (wordFormed = bubble.text + word)
@@ -333,37 +343,40 @@ function GameDemo() {
     };
 
     const getRandomWord = () => {
-      let randomIndex = Math.floor(Math.random() * wordList.length);
-      let randomWord = wordList[randomIndex].root;
+      let randomIndex = Math.floor(Math.random() * wordList.level3.length);
+      let randomWord = wordList.level3[randomIndex].root;
       //console.log(randomWordArray);
       if (randomWordArray.length !== 10) {
         if (randomWordArray.includes(randomWord)) {
           getRandomWord();
         } else {
           setWord(randomWord);
+          setRandomNumber(randomIndex);
           setRandomWordArray((prevState) => [...prevState, randomWord]);
         }
       } else {
         setState({});
         playAudio(gameover);
-        if (score < 5) {
+        if (score < 6) {
           Swal.fire({
             title: "Need to improve!",
             text: `Your score is ${score}`,
             icon: "warning",
-            confirmButtonText: "Restart",
+            confirmButtonText: "Try again",
           }).then((result) => {
+            window.location.reload();
             if (result.isConfirmed) {
-              navigate("/");
+              navigate("/level3");
             }
           });
         } else {
           playAudio(gameover);
+          setCoinMessage(true);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
             icon: "success",
-            confirmButtonText: "Restart",
+            confirmButtonText: "Home",
           }).then((result) => {
             if (result.isConfirmed) {
               navigate("/");
@@ -410,7 +423,6 @@ function GameDemo() {
       [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
     }
   }
-
   return (
     <div
       className="d-flex justify-content-center align-items-center canvas-background"
@@ -438,8 +450,9 @@ function GameDemo() {
       <div className="custom-toast-container">
         <ToastContainer />
       </div>
+      {coinMessage && <GoldCoinsEarned coins={300} />}
     </div>
   );
-}
+};
 
-export default GameDemo;
+export default Level3MidContent;
