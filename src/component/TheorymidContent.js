@@ -3,12 +3,14 @@ import React from "react";
 const TheorymidContent = () => {
   return (
     <div className="p-3" style={{ overflow: "auto" }}>
-      <div className="fw-bolder">Objective</div>
-      <p>To understand the Prefixes and Suffixes.</p>
+      <div className="subheading">Objective</div>
+      <ul className="content">
+        <li>To understand the Prefixes and Suffixes.</li>
+      </ul>
 
-      <div className="fw-bolder">Prefix</div>
+      <div className="subheading">Prefix</div>
       <div>
-        <ul>
+        <ul className="content">
           <li>
             Prefix is an affix attached to the beginning of a word, base, or
             phrase and serving to produce a derivative word or an inflectional
@@ -17,10 +19,12 @@ const TheorymidContent = () => {
           <li>In other words Prefix is a title used before a person's name.</li>
         </ul>
       </div>
-      <div className="fw-bolder">Suffix</div>
+      <div className="subheading">Suffix</div>
       <div>
-        <ul>
-          <li>Suffix is an affix occurring at the end of a word, base, or phrase.</li>
+        <ul className="content">
+          <li>
+            Suffix is an affix occurring at the end of a word, base, or phrase.
+          </li>
         </ul>
       </div>
     </div>

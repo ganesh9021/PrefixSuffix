@@ -1,7 +1,4 @@
-.canvas-background{
-    background-image: url("/src/img/backg.jpg");
-    background-size: cover;
-}
+
 
 .custom-toast-container {
     position: fixed;

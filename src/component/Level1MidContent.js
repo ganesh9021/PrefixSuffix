@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState, useRef, Fragment } from "react";
-import img from "../img/download.png";
+import RightFBImage from "../img/RightFBImage.png";
+import WrongFBImage from "../img/WrongFBImage.png";
 import wordList from "../word.json";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/style.css";
 import GoldCoinsEarned from "./GoldCoinsEarned";
+import backgroundImg from "../img/Prefix.jpg";
+import BalloonImg from "../img/BallonWord.png";
 
 const Level1MidContent = () => {
   let navigate = useNavigate();
@@ -51,7 +53,7 @@ const Level1MidContent = () => {
 
   //Image is far away from canvas bcuz i wanted to show it only on click.
   let [imagePosition, setImagePosition] = useState({
-    x: 450,
+    x: 400,
     y: 20000,
   });
   let requestId;
@@ -62,18 +64,66 @@ const Level1MidContent = () => {
     speedY: 0,
     x: 560,
     y: 0,
-    width: 100,
-    height: 50,
+    width: 300,
+    height: 200,
   });
 
   shuffleWords(prefixArray);
   const [bubbles, setBubbles] = useState([
-    { x: 50, y: 120, radius: 30, text: prefixArray[0], isHovered: false },
-    { x: 50, y: 280, radius: 30, text: prefixArray[1], isHovered: false },
-    { x: 50, y: 440, radius: 30, text: prefixArray[2], isHovered: false },
-    { x: 1110, y: 120, radius: 30, text: prefixArray[3], isHovered: false },
-    { x: 1110, y: 280, radius: 30, text: prefixArray[4], isHovered: false },
-    { x: 1110, y: 440, radius: 30, text: prefixArray[5], isHovered: false },
+    {
+      x: 50,
+      y: 100,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[0],
+      isHovered: false,
+    },
+    {
+      x: 50,
+      y: 260,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[1],
+      isHovered: false,
+    },
+    {
+      x: 50,
+      y: 420,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[2],
+      isHovered: false,
+    },
+    {
+      x: 1000,
+      y: 100,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[3],
+      isHovered: false,
+    },
+    {
+      x: 1000,
+      y: 260,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[4],
+      isHovered: false,
+    },
+    {
+      x: 1000,
+      y: 420,
+      height: 50,
+      width: 100,
+      radius: 20,
+      text: prefixArray[5],
+      isHovered: false,
+    },
   ]);
 
   useEffect(() => {
@@ -121,7 +171,7 @@ const Level1MidContent = () => {
         if (newImageY < canvas.height / 2) {
           newImageY = canvas.height / 2; // Stop the image at the middle
           setTimeout(() => {
-            setImagePosition({ x: 450, y: 20000 });
+            setImagePosition({ x: 400, y: 20000 });
           }, 3000);
         }
         setImagePosition({ x: imageX, y: newImageY });
@@ -134,27 +184,65 @@ const Level1MidContent = () => {
 
       clear();
 
-      //code of moving cube
-      context.fillStyle = "red";
-      context.fillRect(x, newY, width, height);
+      // //code of moving cube
+      // context.fillStyle = "#04364A";
+      // context.fillRect(x - 55, newY, width, height);
+      // context.font = "16px Arial";
+      // context.fillStyle = "white";
+      // context.fillText(word, x + 25, newY + 25);
+
+      // Wait for the image to load (you can use an event listener)
+      var wordImage = new Image();
+      wordImage.src = BalloonImg;
+      context.drawImage(wordImage, x - 105, newY, width, height);
       context.font = "16px Arial";
       context.fillStyle = "black";
-      context.fillText(word, x + 50, newY + 25);
+      context.fillText(word, x + 50, newY + 145);
+
+      // Create a rounded rectangle with fillet radius
+      var xpos = canvas.width / 2 - 100;
+      var ypos = canvas.height / 2 - 280;
+      var widthofscorebox = 200;
+      var heightofscorebox = 50;
+      var radius = 20; // Adjust the radius as needed
+      context.fillStyle = "white";
+      context.beginPath();
+      context.moveTo(xpos + radius, ypos);
+      context.lineTo(xpos + widthofscorebox - radius, ypos);
+      context.lineTo(xpos + widthofscorebox, ypos);
+      context.arcTo(
+        xpos + widthofscorebox,
+        ypos + heightofscorebox,
+        xpos + widthofscorebox - radius,
+        ypos + heightofscorebox,
+        radius
+      );
+      context.lineTo(xpos + radius, ypos + heightofscorebox);
+      context.arcTo(
+        xpos,
+        ypos + heightofscorebox,
+        xpos,
+        ypos + heightofscorebox - radius,
+        radius
+      );
+      context.lineTo(xpos, ypos);
+      context.fill();
+      context.closePath();
 
       //code of score
-      context.font = "32px Arial";
-      context.fillStyle = "black";
-      context.strokeText(`Score: ${score}/10`, 600, 50);
+      context.font = "24px Arial";
+      context.fillStyle = "#FF4F18";
+      context.fillText(`Score: ${score}/10`, xpos + 100, ypos + 25);
 
       //code of moving result image
       let image = new Image();
-      image.src = img;
-      context.drawImage(image, imageX + 60, imageY, 200, 200);
-      context.font = "16px Arial";
-      context.fillStyle = "black";
+      image.src = result ? RightFBImage : WrongFBImage;
+      context.drawImage(image, imageX, imageY, 400, 290);
+      context.font = "14px Arial";
+      context.strokeStyle = "black";
 
       if (newY > canvas.height) {
-        newY = 0; // Reset the cube's position to the top
+        newY = -200; // Reset the cube's position to the top
         setClickDisabled(false);
         setcongratulationsMessage(false);
         getRandomWord();
@@ -169,56 +257,80 @@ const Level1MidContent = () => {
           });
         }
 
-        if (newY == 0) {
-          setImagePosition((prevState) => ({ ...prevState, x: 450, y: 20000 }));
+        if (newY == -200) {
+          setImagePosition((prevState) => ({ ...prevState, x: 400, y: 20000 }));
         }
       }
 
       if (result) {
+        context.font = "18px Arial";
         context.fillStyle = "green";
-        context.fillText("Correct!", imageX + 160, imageY + 50);
-        context.strokeText(
-          `Root -> ${wordList.level1[randomNumber].root} -> ${wordList.level1[randomNumber].rootmeaning}`,
-          imageX + 160,
-          imageY + 70
+        context.fillText("Correct!", imageX + 200, imageY + 160);
+        context.font = "14px Arial";
+        context.fillStyle = "black";
+        context.fillText(
+          `${wordList.level1[randomNumber].root}->${wordList.level1[randomNumber].rootmeaning}`,
+          imageX + 200,
+          imageY + 180
         );
-        context.strokeText(
-          `Word -> ${word} -> ${wordList.level1[randomNumber].Prefixrootmeaning}`,
-          imageX + 160,
-          imageY + 90
+        context.fillText(
+          `${word}->${wordList.level1[randomNumber].Prefixrootmeaning}`,
+          imageX + 200,
+          imageY + 200
         );
       } else {
+        context.font = "18px Arial";
         context.fillStyle = "red";
-        context.fillText("Incorrect!", imageX + 160, imageY + 50);
-        context.strokeText(word, imageX + 160, imageY + 70);
-        context.strokeText(
+        context.fillText("Incorrect!", imageX + 200, imageY + 160);
+        context.font = "14px Arial";
+        context.fillStyle = "black";
+        context.fillText(word, imageX + 200, imageY + 180);
+        context.fillText(
           "Meaningful word not formed.",
-          imageX + 160,
-          imageY + 90
+          imageX + 200,
+          imageY + 200
         );
       }
     };
 
     const drawBubbles = () => {
       bubbles.forEach((bubble) => {
+        const { x, y, width, height, radius } = bubble;
         context.beginPath();
-        context.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+        // context.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+        context.moveTo(x + radius, y);
+        context.lineTo(x + width - radius, y);
+        context.arcTo(x + width, y, x + width, y + radius, radius);
+        context.lineTo(x + width, y + height - radius);
+        context.arcTo(
+          x + width,
+          y + height,
+          x + width - radius,
+          y + height,
+          radius
+        );
+        context.lineTo(x + radius, y + height);
+        context.arcTo(x, y + height, x, y + height - radius, radius);
+        context.lineTo(x, y + radius);
+        context.arcTo(x, y, x + radius, y, radius);
 
         if (bubble.isHovered) {
-          context.fillStyle = "orange"; // Change the fill color when hovered
-          context.arc(bubble.x, bubble.y, bubble.radius * 1.5, 0, Math.PI * 2);
+          context.fillStyle = "#FFC400"; // Change the fill color when hovered
         } else {
-          context.fillStyle = "blue";
+          context.fillStyle = "#FFA200";
         }
 
         context.fill();
         context.closePath();
+        context.strokeStyle = "white"; // Border color
+        context.lineWidth = 3; // Border width
+        context.stroke();
 
         context.font = "16px Arial";
-        context.fillStyle = "white";
+        context.fillStyle = "#000000";
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.fillText(bubble.text, bubble.x, bubble.y);
+        context.fillText(bubble.text, bubble.x + 50, bubble.y + 25);
       });
     };
 
@@ -226,23 +338,7 @@ const Level1MidContent = () => {
       setClickedDuringCycle(true);
       const canvas = canvasRef.current;
       if (!canvas) return;
-      if (clickDisabled) {
-        // toast.error("You are allowed to click only once during a cycle !!", {
-        //   position: "top-center",
-        //   autoClose: 2000,
-        // });
-        // toast.error('🦄 You are allowed to click only once during a cycle !!!', {
-        //   position: "top-center",
-        //   autoClose: 2000,
-        //   hideProgressBar: false,
-        //   closeOnClick: false,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "dark",
-        //   });
-        return;
-      }
+      if (clickDisabled) return;
 
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
@@ -250,8 +346,23 @@ const Level1MidContent = () => {
 
       // Check if the click is inside any of the bubbles
       bubbles.forEach((bubble) => {
-        const dx = mouseX - bubble.x;
-        const dy = mouseY - bubble.y;
+        const isInsideX =
+          mouseX >= bubble.x && mouseX <= bubble.x + bubble.width;
+        const isInsideY =
+          mouseY >= bubble.y && mouseY <= bubble.y + bubble.height;
+
+        const dx = isInsideX
+          ? 0
+          : Math.min(
+              Math.abs(bubble.x - mouseX),
+              Math.abs(mouseX - (bubble.x + bubble.width))
+            );
+        const dy = isInsideY
+          ? 0
+          : Math.min(
+              Math.abs(bubble.y - mouseY),
+              Math.abs(mouseY - (bubble.y + bubble.height))
+            );
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance <= bubble.radius) {
@@ -271,7 +382,7 @@ const Level1MidContent = () => {
 
           // Handle the click action here
           if (word_arr.includes(wordFormed)) {
-            setImagePosition({ x: 450, y: 600 });
+            setImagePosition({ x: 400, y: 600 });
             setcongratulationsMessage(true);
             playAudio(correctanswer);
             setWord(wordFormed);
@@ -279,14 +390,14 @@ const Level1MidContent = () => {
             setClickDisabled(true);
             let newScore = score + 1;
             setScore(newScore);
-            setImagePosition({ x: 450, y: 600 });
+            setImagePosition({ x: 400, y: 600 });
           } else {
-            setImagePosition({ x: 450, y: 600 });
+            setImagePosition({ x: 400, y: 600 });
             playAudio(wronganswer);
             setWord(wordFormed);
             setResult(false);
             setClickDisabled(true);
-            setImagePosition({ x: 450, y: 600 });
+            setImagePosition({ x: 400, y: 600 });
           }
         }
       });
@@ -295,22 +406,36 @@ const Level1MidContent = () => {
     const handleBubbleHover = (event) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
 
-      // Check if the mouse is over any of the bubbles
-      const updatedBubbles = bubbles.map((bubble) => {
-        const dx = mouseX - bubble.x;
+      // Check if the mouse is over any of the rounded rectangles
+      const updatedBubbles = bubbles.map((rect) => {
+        const isInsideX = mouseX >= rect.x && mouseX <= rect.x + rect.width;
+        const isInsideY = mouseY >= rect.y && mouseY <= rect.y + rect.height;
 
-        const dy = mouseY - bubble.y;
+        // Calculate the distance to the rounded corners
+        const dx = isInsideX
+          ? 0
+          : Math.min(
+              Math.abs(rect.x - mouseX),
+              Math.abs(mouseX - (rect.x + rect.width))
+            );
+        const dy = isInsideY
+          ? 0
+          : Math.min(
+              Math.abs(rect.y - mouseY),
+              Math.abs(mouseY - (rect.y + rect.height))
+            );
+
+        // Calculate the distance to the rounded corners using Pythagoras' theorem
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance <= bubble.radius) {
-          return { ...bubble, isHovered: true };
+        if (distance <= rect.radius) {
+          return { ...rect, isHovered: true };
         } else {
-          return { ...bubble, isHovered: false };
+          return { ...rect, isHovered: false };
         }
       });
 
@@ -402,16 +527,25 @@ const Level1MidContent = () => {
   return (
     <div
       className="d-flex justify-content-center align-items-center canvas-background"
-      style={{ height: "100%", width: "100%" }}
+      style={{
+        height: "100%",
+        width: "100%",
+        backgroundImage: "url(" + backgroundImg + ")",
+        borderRadius: "20px",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
     >
       <canvas
         ref={canvasRef}
-        className="canvas-background"
         width={1160}
         height={560}
         style={{
           border: "2px solid #000",
           backgroundColor: "transparent",
+          backgroundImage: "url(" + backgroundImg + ")",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       />
 

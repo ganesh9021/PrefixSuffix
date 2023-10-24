@@ -4,85 +4,85 @@
       "root": "known",
       "prefix": "Un",
       "word": "Unknown",
-      "rootmeaning": "something recognized",
-      "Prefixrootmeaning": "not recognized"
+      "rootmeaning": "Something recognized",
+      "Prefixrootmeaning": "Not recognized"
     },
     {
       "root": "aware",
       "prefix": "Un",
       "word": "Unaware",
-      "rootmeaning": "informed about somethings",
-      "Prefixrootmeaning": "not informed"
+      "rootmeaning": "Informed about something",
+      "Prefixrootmeaning": "Not informed"
     },
     {
       "root": "marine",
       "prefix": "Sub",
       "word": "Submarine",
-      "rootmeaning": "related to sea",
-      "Prefixrootmeaning": "watercraft which operate below the sea"
+      "rootmeaning": "Related to sea",
+      "Prefixrootmeaning": "An watercraft"
     },
     {
       "root": "urban",
       "prefix": "Sub",
       "word": "Suburban",
-      "rootmeaning": "city life",
-      "Prefixrootmeaning": "areas outskirts of a city"
+      "rootmeaning": "City life",
+      "Prefixrootmeaning": "Residential area"
     },
     {
       "root": "mantle",
       "prefix": "Dis",
       "word": "Dismantle",
-      "rootmeaning": "sleeveless outer garment",
-      "Prefixrootmeaning": "disassemble"
+      "rootmeaning": "Sleeveless outer garment",
+      "Prefixrootmeaning": "Disassemble"
     },
     {
       "root": "qualify",
       "prefix": "Dis",
       "word": "Disqualify",
-      "rootmeaning": "meet the requirements",
-      "Prefixrootmeaning": "declare ineligible"
+      "rootmeaning": "Meet the requirements",
+      "Prefixrootmeaning": "Declare ineligible"
     },
     {
       "root": "vent",
       "prefix": "Pre",
       "word": "Prevent",
-      "rootmeaning": "outlet for air gas or liquid",
-      "Prefixrootmeaning": "stop something from happening"
+      "rootmeaning": "Outlet for air,gas,liquid",
+      "Prefixrootmeaning": "Stop something from happening"
     },
     {
       "root": "caution",
       "prefix": "Pre",
       "word": "Precaution",
-      "rootmeaning": "state of being careful",
-      "Prefixrootmeaning": "action taken to minimize the risk"
+      "rootmeaning": "State of being careful",
+      "Prefixrootmeaning": "Action to minimize the risk"
     },
     {
       "root": "pilot",
       "prefix": "Co",
       "word": "Copilot",
-      "rootmeaning": "person in command to navigate aircraft",
-      "Prefixrootmeaning": "second person incommand to navigate aircraft"
+      "rootmeaning": "Person in command of aircraft",
+      "Prefixrootmeaning": "Second person of aircraft"
     },
     {
       "root": "worker",
       "prefix": "Co",
       "word": "Coworker",
-      "rootmeaning": "employee",
-      "Prefixrootmeaning": "another employee works together"
+      "rootmeaning": "Employee",
+      "Prefixrootmeaning": "Colleague"
     },
     {
       "root": "work",
       "prefix": "Re",
       "word": "Rework",
-      "rootmeaning": "job",
-      "Prefixrootmeaning": "do job again"
+      "rootmeaning": "Job",
+      "Prefixrootmeaning": "Do job again"
     },
     {
       "root": "ignite",
       "prefix": "Re",
       "word": "Reignite",
-      "rootmeaning": "set something on fire",
-      "Prefixrootmeaning": "ignite something again"
+      "rootmeaning": "Set something on fire",
+      "Prefixrootmeaning": "Ignite something again"
     }
   ],
   "level2": [
@@ -90,92 +90,92 @@
       "root": "Real",
       "suffix": "ize",
       "word": "Realize",
-      "rootmeaning": "not imagined",
-      "rootsuffixmeaning": "become aware of something"
+      "rootmeaning": "Not imagined",
+      "rootsuffixmeaning": "Aware of something"
     },
     {
       "root": "Organ",
       "suffix": "ize",
       "word": "Organize",
-      "rootmeaning": "part of an organism",
-      "rootsuffixmeaning": "arrange something systematically"
+      "rootmeaning": "Part of an organism",
+      "rootsuffixmeaning": "Arrange something properly"
     },
     {
       "root": "Firm",
       "suffix": "ly",
       "word": "Firmly",
-      "rootmeaning": "strong",
-      "rootsuffixmeaning": "solid manner"
+      "rootmeaning": "Strong",
+      "rootsuffixmeaning": "Solid manner"
     },
     {
       "root": "Safe",
       "suffix": "ly",
       "word": "Safely",
       "rootmeaning": "Free from harm",
-      "rootsuffixmeaning": "free-from-harm manner"
+      "rootsuffixmeaning": "Free from harm manner"
     },
     {
       "root": "Fast",
       "suffix": "est",
       "word": "Fastest",
-      "rootmeaning": "moving quickly",
-      "rootsuffixmeaning": "highest speed"
+      "rootmeaning": "Moving quickly",
+      "rootsuffixmeaning": "Highest speed"
     },
     {
       "root": "Long",
       "suffix": "est",
       "word": "Longest",
-      "rootmeaning": "great length",
-      "rootsuffixmeaning": "having a length greater than average"
+      "rootmeaning": "Great length",
+      "rootsuffixmeaning": "Having a great length"
     },
     {
       "root": "Color",
       "suffix": "ful",
       "word": "Colorful",
-      "rootmeaning": "visual property of an object",
-      "rootsuffixmeaning": "having a variety of bright and vibrant colors"
+      "rootmeaning": "Visuals of an object",
+      "rootsuffixmeaning": "Variety of colours"
     },
     {
       "root": "Wonder",
       "suffix": "ful",
       "word": "Wonderful",
-      "rootmeaning": "filled with admiration",
-      "rootsuffixmeaning": "amazement"
+      "rootmeaning": "Filled with admiration",
+      "rootsuffixmeaning": "Amazement"
     },
     {
       "root": "Child",
       "suffix": "ish",
       "word": "Childish",
       "rootmeaning": "A young human being",
-      "rootsuffixmeaning": "behavior of a child"
+      "rootsuffixmeaning": "Behavior of a child"
     },
     {
       "root": "Flour",
       "suffix": "ish",
       "word": "Flourish",
-      "rootmeaning": "powder made from grains",
-      "rootsuffixmeaning": "to grow"
+      "rootmeaning": "Powder made from grains",
+      "rootsuffixmeaning": "To grow"
     },
     {
       "root": "Green",
       "suffix": "ish",
       "word": "Greenish",
-      "rootmeaning": "color of growing grass",
-      "rootsuffixmeaning": "somewhat green in color"
+      "rootmeaning": "Color of growing grass",
+      "rootsuffixmeaning": "Somewhat green in color"
     },
     {
       "root": "Strength",
       "suffix": "en",
       "word": "Strengthen",
-      "rootmeaning": "physically strong",
-      "rootsuffixmeaning": "make something stronger"
+      "rootmeaning": "Physically strong",
+      "rootsuffixmeaning": "Make something stronger"
     },
     {
       "root": "Thick",
       "suffix": "en",
       "word": "Thicken",
-      "rootmeaning": "not thin",
-      "rootsuffixmeaning": "make something thicker"
+      "rootmeaning": "Not thin",
+      "rootsuffixmeaning": "Make something thicker"
     }
   ],
   "level3": [
@@ -183,162 +183,162 @@
       "root": "biotic",
       "prefix": "Anti",
       "word": "Antibiotic",
-      "biotic": "living organisms and their activities",
-      "Antibiotic": "substance that destroys the growth of bacteria"
+      "biotic": "Living organisms",
+      "Antibiotic": "Substance that destroys bacteria"
     },
     {
       "root": "oxidant",
       "prefix": "Anti",
       "word": "Antioxidant",
-      "oxidant": "responsible for oxidation",
-      "Antioxidant": "substance which prevents damage to cells"
+      "oxidant": "Responsible for oxidation",
+      "Antioxidant": "Prevents damage to cells"
     },
     {
       "root": "come",
       "prefix": "Over",
       "word": "Overcome",
-      "come": "move",
-      "Overcome": "succeed"
+      "come": "Move",
+      "Overcome": "Succeed"
     },
     {
       "root": "load",
       "prefix": "Over",
       "word": "Overload",
       "load": "Burden",
-      "Overload": "put too much"
+      "Overload": "Put too much"
     },
     {
       "root": "estimate",
       "prefix": "Under",
       "word": "Underestimate",
-      "estimate": "approximation",
-      "Underestimate": "undervalue something"
+      "estimate": "Approximation",
+      "Underestimate": "Undervalue something"
     },
     {
       "root": "world",
-      "prefix": "Under",
-      "word": "universe",
-      "world": "approximation",
+      "prefix": "Underworld",
+      "word": "Under",
+      "world": "Universe",
       "Underworld": "hidden world"
     },
     {
       "root": "verse",
       "prefix": "Multi",
       "word": "Multiverse",
-      "verse": "poetry",
-      "Multiverse": "multiple parallel universes"
+      "verse": "Poetry",
+      "Multiverse": "Multiple parallel universes"
     },
     {
       "root": "purpose",
       "prefix": "Multi",
       "word": "Multipurpose",
-      "purpose": "use",
-      "Multipurpose": "different uses"
+      "purpose": "Use",
+      "Multipurpose": "Different uses"
     },
     {
       "root": "didact",
       "prefix": "Auto",
       "word": "Autodidact",
-      "didact": "learning",
-      "Autodidact": "learn by its own"
+      "didact": "Learning",
+      "Autodidact": "Learn by its own"
     },
     {
       "root": "man",
       "prefix": "Post",
       "word": "Postman",
-      "man": "human being",
-      "Postman": "mail carrier"
+      "man": "Human being",
+      "Postman": "Mail carrier"
     },
     {
       "root": "prandial",
       "prefix": "Post",
       "word": "Postprandial",
-      "prandial": "meal",
-      "Postprandial": "immediately after a meal"
+      "prandial": "Meal",
+      "Postprandial": "Immediately after a meal"
     },
     {
       "root": "Enrich",
       "suffix": "ment",
       "word": "Enrichment",
-      "Enrich": "make something reacher",
-      "Enrichment": "process of making reacher"
+      "Enrich": "Make something reacher",
+      "Enrichment": "Process of making reacher"
     },
     {
       "root": "Nourish",
       "suffix": "ment",
       "word": "Nourishment",
-      "Nourish": "provide food for good health",
-      "Nourishment": "provision of food that support growth"
+      "Nourish": "Food for good health",
+      "Nourishment": "Food that support growth"
     },
     {
       "root": "Taste",
       "suffix": "less",
       "word": "Tasteless",
-      "Taste": "sensation of flavor",
-      "Tasteless": "no taste"
+      "Taste": "Sensation of flavor",
+      "Tasteless": "No taste"
     },
     {
       "root": "Fear",
       "suffix": "less",
       "word": "Fearless",
-      "Fear": "threat",
-      "Fearless": "without fear"
+      "Fear": "Threat",
+      "Fearless": "Without fear"
     },
     {
       "root": "Formid",
       "suffix": "able",
       "word": "Formidable",
-      "Formid": "inspiring fear",
-      "Formidable": "great power"
+      "Formid": "Inspiring fear",
+      "Formidable": "Great power"
     },
     {
       "root": "Account",
       "suffix": "able",
       "word": "Accountable",
-      "Account": "record",
-      "Accountable": "being responsible for one's action"
+      "Account": "Record",
+      "Accountable": "Being responsible for one's action"
     },
     {
       "root": "Unique",
       "suffix": "ness",
       "word": "Uniqueness",
-      "Unique": "distinctive",
-      "Uniqueness": "distinctive characteristics"
+      "Unique": "Distinctive",
+      "Uniqueness": "Distinctive characteristics"
     },
     {
       "root": "Kind",
       "suffix": "ness",
       "word": "Kindness",
-      "Kind": "gentle",
-      "Kindness": "being gentle"
+      "Kind": "Gentle",
+      "Kindness": "Being gentle"
     },
     {
       "root": "Friend",
       "suffix": "ship",
       "word": "Friendship",
-      "Friend": "known persons",
-      "Friendship": "relationship between friends"
+      "Friend": "Known persons",
+      "Friendship": "Relationship between friends"
     },
     {
       "root": "Leader",
       "suffix": "ship",
       "word": "Leadership",
-      "Leader": "person who guides",
-      "Friendship": "quality of being a leader"
+      "Leader": "Person who guides",
+      "Friendship": "Quality of being a leader"
     },
     {
       "root": "neighbour",
       "suffix": "hood",
       "word": "neighbourhood",
-      "neighbour": "people lives near to us",
-      "neighbourhood": "area where we live with our neighbours"
+      "neighbour": "People lives near to us",
+      "neighbourhood": "Area where live with neighbours"
     },
     {
       "root": "Nation",
       "suffix": "hood",
       "word": "Nationhood",
-      "Nation": "country",
-      "Nationhood": "having the status of an independent nation"
+      "Nation": "Country",
+      "Nationhood": "Independent nation"
     }
   ]
 }

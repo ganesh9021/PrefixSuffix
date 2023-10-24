@@ -1,8 +1,12 @@
 import React from "react";
 import ActStartPopupContent from "./ActStartPopupContent";
 import { Launchpage } from "english-olabsnxtg-library";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import logconfig from "../config/dbconfig";
+import { SendLogData } from "../config/wslog.js";
 
 const Homepage = () => {
+  const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
   var arr = [
     "Students will be able to analyse the word meaning after applying the Prefixes and suffixes.",
   ];
@@ -19,6 +23,10 @@ const Homepage = () => {
         WAWGTL_comp={<ActStartPopupContent />}
         ok="OK"
         cancel="CANCEL"
+        WS_sendJsonMessage={sendJsonMessage}
+        WS_SendLogData={SendLogData}
+        labNo="12"
+        labShortName="Prefix-Suffix"
       />
     </div>
   );

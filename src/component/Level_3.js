@@ -2,8 +2,12 @@ import { OlabsPage } from "english-olabsnxtg-library";
 import React from "react";
 import QuizPopupContent from "./QuizPopupContent";
 import Level3MidContent from "./Level3MidContent";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import logconfig from "../config/dbconfig";
+import { SendLogData } from "../config/wslog.js";
 
 const Level_3 = () => {
+  const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
   return (
     <>
       <OlabsPage
@@ -18,6 +22,10 @@ const Level_3 = () => {
         M_midcontent_comp={<Level3MidContent />}
         RSM_Intruc_popup_title_string="Instructions for quiz"
         RSM_QuizPopupContent_comp={<QuizPopupContent />}
+        WS_sendJsonMessage={sendJsonMessage}
+        WS_SendLogData={SendLogData}
+        labNo="12"
+        labShortName="Prefix-Suffix"
       />
     </>
   );

@@ -1,0 +1,13 @@
+.mainheading {
+  font-size: calc(1rem+1.6vw);
+  font-weight: bolder;
+}
+
+.subheading {
+  font-size: calc(0.8rem+1.2vw);
+  font-weight: bolder;
+}
+
+.content {
+  font-size: calc(0.6rem+1vw);
+}
