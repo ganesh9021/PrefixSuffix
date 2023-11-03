@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./css/common.css";
+import "./css/mid.css";
+import "animate.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Store from "./store/Store";

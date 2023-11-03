@@ -7,15 +7,13 @@ import { SendLogData } from "../config/wslog.js";
 
 const Homepage = () => {
   const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
-  var arr = [
-    "Students will be able to analyse the word meaning after applying the Prefixes and suffixes.",
-  ];
+  var arr = ["Students will be able to use the prefix and suffix with a word."];
   return (
     <div>
       <Launchpage
         L_title="Prefix-Suffix"
         L_objective="Objective:"
-        L_act_objective="To understand the Prefixes and Suffixes."
+        L_act_objective="To use the prefix and suffix with a word"
         L_learning_outcome="Learning Outcome:"
         L_array={arr}
         L_startbutton="START"

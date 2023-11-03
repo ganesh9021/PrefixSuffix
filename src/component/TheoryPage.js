@@ -1,16 +1,16 @@
 import React from "react";
 import QuizPopupContent from "./QuizPopupContent";
 import TheorymidContent from "./TheorymidContent";
-import { OlabsPage } from "english-olabsnxtg-library";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import logconfig from "../config/dbconfig";
 import { SendLogData } from "../config/wslog.js";
+import { OlabsPage } from "english-olabsnxtg-library";
 
 const TheoryPage = () => {
   const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
   return (
     <OlabsPage
-      H_title="Biosketch"
+      H_title="Prefix-Suffix"
       HQ_yes="YES"
       HQ_cancel="CANCEL"
       HQ_quittext="Are you sure you want to quit?"

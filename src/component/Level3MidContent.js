@@ -14,12 +14,15 @@ import "../css/style.css";
 import GoldCoinsEarned from "./GoldCoinsEarned";
 import backgroundImg from "../img/PrefixSuffix.jpg";
 import BalloonImg from "../img/BallonWord.png";
+import Gameinstrudialog from "./Gameinstrudialog";
 
 const Level3MidContent = () => {
   let navigate = useNavigate();
   let canvasRef = useRef(null);
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
+  //coinCount
+  let [coinCount, setCoinCount] = useState(200);
   //cube and image speed
   let [cubeSpeed, setCubeSpeed] = useState(1.0);
   let [imageSpeed, setImageSpeed] = useState(4.0);
@@ -41,6 +44,8 @@ const Level3MidContent = () => {
   const [clickedDuringCycle, setClickedDuringCycle] = useState(false);
   //random number
   let [randomNumber, setRandomNumber] = useState(0);
+  //help popup open-close
+  var [open, setOpen] = useState(false);
   //prefix array
   const [prefixArray, setPrefixArray] = useState([
     "Anti",
@@ -74,7 +79,7 @@ const Level3MidContent = () => {
     x: 560,
     y: 0,
     width: 300,
-    height: 200,
+    height: 150,
   });
 
   shuffleWords(prefixArray);
@@ -192,6 +197,7 @@ const Level3MidContent = () => {
   ]);
 
   useEffect(() => {
+    if (open) return;
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
@@ -262,7 +268,7 @@ const Level3MidContent = () => {
       context.drawImage(wordImage, x - 105, newY, width, height);
       context.font = "16px Arial";
       context.fillStyle = "black";
-      context.fillText(word, x + 50, newY + 145);
+      context.fillText(word, x + 50, newY + 110);
 
       // Create a rounded rectangle with fillet radius
       var xpos = canvas.width / 2 - 100;
@@ -298,6 +304,11 @@ const Level3MidContent = () => {
       context.font = "24px Arial";
       context.fillStyle = "#FF4F18";
       context.fillText(`Score: ${score}/10`, xpos + 100, ypos + 25);
+
+      //code of score
+      context.font = "24px Arial";
+      context.fillStyle = "#aa6c39";
+      context.fillText(`${coinCount} coins earned`, xpos + 580, ypos + 15);
 
       //code of moving result image
       let image = new Image();
@@ -543,11 +554,12 @@ const Level3MidContent = () => {
         } else {
           playAudio(gameover);
           setCoinMessage(true);
+          setCoinCount(300);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
             icon: "success",
-            confirmButtonText: "Home",
+            confirmButtonText: "Restart",
           }).then((result) => {
             if (result.isConfirmed) {
               navigate("/");
@@ -586,7 +598,7 @@ const Level3MidContent = () => {
         cancelAnimationFrame(requestId); // This will stop the animation loop
       }
     };
-  }, [state, word]);
+  }, [state, word, open]);
 
   function shuffleWords(wordArray) {
     for (let i = wordArray.length - 1; i > 0; i--) {
@@ -594,6 +606,19 @@ const Level3MidContent = () => {
       [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
     }
   }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function HandleHelp() {
+    setOpen(true);
+  }
+
+  function handleExit() {
+    navigate("/");
+  }
+
   return (
     <div
       className="d-flex justify-content-center align-items-center canvas-background"
@@ -620,6 +645,43 @@ const Level3MidContent = () => {
         }}
       />
 
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "25%",
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={handleExit}
+      >
+        Exit
+      </button>
+
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "35%",
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={HandleHelp}
+      >
+        Help
+      </button>
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "65%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        Level-3
+      </button>
+
       {congratulationsMessage ? (
         <Fragment>
           <Confetti numberOfPieces={200} gravity={0.15} />
@@ -631,7 +693,13 @@ const Level3MidContent = () => {
       <div className="custom-toast-container">
         <ToastContainer />
       </div>
-      {coinMessage && <GoldCoinsEarned coins={300} />}
+      {coinMessage && <GoldCoinsEarned />}
+
+      <Gameinstrudialog
+        handleClose={handleClose}
+        open={open}
+        setOpen={setOpen}
+      />
     </div>
   );
 };

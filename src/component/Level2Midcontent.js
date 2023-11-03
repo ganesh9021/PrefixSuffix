@@ -14,6 +14,7 @@ import "../css/style.css";
 import GoldCoinsEarned from "./GoldCoinsEarned";
 import backgroundImg from "../img/Suffix.jpg";
 import BalloonImg from "../img/BallonWord.png";
+import Gameinstrudialog from "./Gameinstrudialog";
 
 const Level2Midcontent = () => {
   let navigate = useNavigate();
@@ -39,10 +40,12 @@ const Level2Midcontent = () => {
   const [clickedDuringCycle, setClickedDuringCycle] = useState(false);
   //random number
   let [randomNumber, setRandomNumber] = useState(0);
-
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
-
+  //coins count
+  let [coinCount, setCoinCount] = useState(100);
+  //help popup open-close
+  var [open, setOpen] = useState(false);
   //suffix array
   const [suffixArray, setSuffixArray] = useState([
     "ize",
@@ -67,7 +70,7 @@ const Level2Midcontent = () => {
     x: 560,
     y: 0,
     width: 300,
-    height: 200,
+    height: 150,
   });
 
   shuffleWords(suffixArray);
@@ -129,6 +132,7 @@ const Level2Midcontent = () => {
   ]);
 
   useEffect(() => {
+    if (open) return;
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
@@ -199,7 +203,7 @@ const Level2Midcontent = () => {
       context.drawImage(wordImage, x - 105, newY, width, height);
       context.font = "16px Arial";
       context.fillStyle = "black";
-      context.fillText(word, x + 50, newY + 145);
+      context.fillText(word, x + 50, newY + 110);
 
       // Create a rounded rectangle with fillet radius
       var xpos = canvas.width / 2 - 100;
@@ -235,6 +239,11 @@ const Level2Midcontent = () => {
       context.font = "24px Arial";
       context.fillStyle = "#FF4F18";
       context.fillText(`Score: ${score}/10`, xpos + 100, ypos + 25);
+
+      //code of score
+      context.font = "24px Arial";
+      context.fillStyle = "#aa6c39";
+      context.fillText(`${coinCount} coins earned`, xpos + 580, ypos + 15);
 
       //code of moving result image
       let image = new Image();
@@ -412,7 +421,6 @@ const Level2Midcontent = () => {
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
 
-
       // Check if the mouse is over any of the bubbles
       const updatedBubbles = bubbles.map((rect) => {
         const isInsideX = mouseX >= rect.x && mouseX <= rect.x + rect.width;
@@ -435,7 +443,6 @@ const Level2Midcontent = () => {
         // Calculate the distance to the rounded corners using Pythagoras' theorem
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-
         if (distance <= rect.radius) {
           return { ...rect, isHovered: true };
         } else {
@@ -445,6 +452,14 @@ const Level2Midcontent = () => {
 
       setBubbles(updatedBubbles);
     };
+
+    function handleClose() {
+      setOpen(false);
+    }
+
+    function HandleHelp() {
+      setOpen(true);
+    }
 
     const getRandomWord = () => {
       let randomIndex = Math.floor(Math.random() * wordList.level2.length);
@@ -476,6 +491,7 @@ const Level2Midcontent = () => {
         } else {
           playAudio(gameover);
           setCoinMessage(true);
+          setCoinCount(200);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
@@ -519,7 +535,7 @@ const Level2Midcontent = () => {
         cancelAnimationFrame(requestId); // This will stop the animation loop
       }
     };
-  }, [state, word]);
+  }, [state, word, open]);
 
   function shuffleWords(wordArray) {
     for (let i = wordArray.length - 1; i > 0; i--) {
@@ -527,6 +543,19 @@ const Level2Midcontent = () => {
       [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
     }
   }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function HandleHelp() {
+    setOpen(true);
+  }
+
+  function handleExit() {
+    navigate("/");
+  }
+
   return (
     <div
       className="d-flex justify-content-center align-items-center canvas-background"
@@ -553,6 +582,43 @@ const Level2Midcontent = () => {
         }}
       />
 
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "25%",
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={handleExit}
+      >
+        Exit
+      </button>
+
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "35%",
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={HandleHelp}
+      >
+        Help
+      </button>
+      <button
+        className="stylish-button"
+        style={{
+          position: "absolute",
+          top: "14%",
+          left: "65%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        Level-2
+      </button>
+
       {congratulationsMessage ? (
         <Fragment>
           <Confetti numberOfPieces={200} gravity={0.15} />
@@ -564,7 +630,13 @@ const Level2Midcontent = () => {
       <div className="custom-toast-container">
         <ToastContainer />
       </div>
-      {coinMessage && <GoldCoinsEarned coins={200} />}
+      {coinMessage && <GoldCoinsEarned />}
+
+      <Gameinstrudialog
+        handleClose={handleClose}
+        open={open}
+        setOpen={setOpen}
+      />
     </div>
   );
 };

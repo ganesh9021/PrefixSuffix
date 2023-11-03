@@ -11,3 +11,22 @@
 .content {
   font-size: calc(0.6rem+1vw);
 }
+
+.stylish-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: white; /* Background color */
+  color: #000000; /* Text color */
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.stylish-button:hover {
+  background-color: #2980b9; /* Hover background color */
+}
