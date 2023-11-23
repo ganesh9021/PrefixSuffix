@@ -15,14 +15,13 @@ import GoldCoinsEarned from "./GoldCoinsEarned";
 import backgroundImg from "../img/PrefixSuffix.jpg";
 import BalloonImg from "../img/BallonWord.png";
 import Gameinstrudialog from "./Gameinstrudialog";
+import coin from "../img/200.png";
 
 const Level3MidContent = () => {
   let navigate = useNavigate();
   let canvasRef = useRef(null);
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
-  //coinCount
-  let [coinCount, setCoinCount] = useState(200);
   //cube and image speed
   let [cubeSpeed, setCubeSpeed] = useState(1.0);
   let [imageSpeed, setImageSpeed] = useState(4.0);
@@ -87,7 +86,7 @@ const Level3MidContent = () => {
   const [bubbles, setBubbles] = useState([
     {
       x: 50,
-      y: 35,
+      y: 60,
       height: 50,
       width: 100,
       radius: 20,
@@ -96,7 +95,7 @@ const Level3MidContent = () => {
     },
     {
       x: 50,
-      y: 125,
+      y: 150,
       height: 50,
       width: 100,
       radius: 20,
@@ -105,7 +104,7 @@ const Level3MidContent = () => {
     },
     {
       x: 50,
-      y: 215,
+      y: 240,
       height: 50,
       width: 100,
       radius: 20,
@@ -114,7 +113,7 @@ const Level3MidContent = () => {
     },
     {
       x: 50,
-      y: 305,
+      y: 330,
       height: 50,
       width: 100,
       radius: 20,
@@ -123,7 +122,7 @@ const Level3MidContent = () => {
     },
     {
       x: 50,
-      y: 395,
+      y: 420,
       height: 50,
       width: 100,
       radius: 20,
@@ -132,7 +131,7 @@ const Level3MidContent = () => {
     },
     {
       x: 50,
-      y: 485,
+      y: 500,
       height: 50,
       width: 100,
       radius: 20,
@@ -142,7 +141,7 @@ const Level3MidContent = () => {
 
     {
       x: 1000,
-      y: 35,
+      y: 60,
       height: 50,
       width: 100,
       radius: 20,
@@ -151,7 +150,7 @@ const Level3MidContent = () => {
     },
     {
       x: 1000,
-      y: 125,
+      y: 150,
       height: 50,
       width: 100,
       radius: 20,
@@ -160,7 +159,7 @@ const Level3MidContent = () => {
     },
     {
       x: 1000,
-      y: 215,
+      y: 240,
       height: 50,
       width: 100,
       radius: 20,
@@ -169,7 +168,7 @@ const Level3MidContent = () => {
     },
     {
       x: 1000,
-      y: 305,
+      y: 330,
       height: 50,
       width: 100,
       radius: 20,
@@ -178,7 +177,7 @@ const Level3MidContent = () => {
     },
     {
       x: 1000,
-      y: 395,
+      y: 420,
       height: 50,
       width: 100,
       radius: 20,
@@ -187,7 +186,7 @@ const Level3MidContent = () => {
     },
     {
       x: 1000,
-      y: 485,
+      y: 500,
       height: 50,
       width: 100,
       radius: 20,
@@ -255,13 +254,6 @@ const Level3MidContent = () => {
 
       clear();
 
-      //code of moving cube
-      // context.fillStyle = "red";
-      // context.fillRect(x, newY, width, height);
-      // context.font = "16px Arial";
-      // context.fillStyle = "black";
-      // context.fillText(word, x + 50, newY + 25);
-
       // Wait for the image to load (you can use an event listener)
       var wordImage = new Image();
       wordImage.src = BalloonImg;
@@ -270,10 +262,10 @@ const Level3MidContent = () => {
       context.fillStyle = "black";
       context.fillText(word, x + 50, newY + 110);
 
-      // Create a rounded rectangle with fillet radius
-      var xpos = canvas.width / 2 - 100;
+      // Create a rounded rectangle with fillet radius for label
+      var xpos = canvas.width / 2 - 115;
       var ypos = canvas.height / 2 - 280;
-      var widthofscorebox = 200;
+      var widthofscorebox = 230;
       var heightofscorebox = 50;
       var radius = 20; // Adjust the radius as needed
       context.fillStyle = "white";
@@ -300,15 +292,61 @@ const Level3MidContent = () => {
       context.fill();
       context.closePath();
 
-      //code of score
-      context.font = "24px Arial";
-      context.fillStyle = "#FF4F18";
-      context.fillText(`Score: ${score}/10`, xpos + 100, ypos + 25);
+      // Creating a rounded rectangle for score
+      var xpos_r = canvas.width / 2 - 550;
+      var ypos_r = canvas.height / 2 - 280;
+      var widthofscorebox_r = 200;
+      var heightofscorebox_r = 50;
+      var radius_r = 20; // Adjust the radius as needed
+      context.fillStyle = "#4893FF";
+      context.beginPath();
+      context.moveTo(xpos_r + radius_r, ypos_r);
+      context.lineTo(xpos_r + widthofscorebox_r - radius_r, ypos_r);
+      context.arcTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r,
+        xpos_r + widthofscorebox_r,
+        ypos_r + radius_r,
+        radius_r
+      );
+      context.lineTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r + heightofscorebox_r - radius_r
+      );
+      context.arcTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r + heightofscorebox_r,
+        xpos_r + widthofscorebox_r - radius_r,
+        ypos_r + heightofscorebox_r,
+        radius_r
+      );
+      context.lineTo(xpos_r + radius_r, ypos_r + heightofscorebox_r);
+      context.arcTo(
+        xpos_r,
+        ypos_r + heightofscorebox_r,
+        xpos_r,
+        ypos_r + heightofscorebox_r - radius_r,
+        radius_r
+      );
+      context.lineTo(xpos_r, ypos_r + radius_r);
+      context.arcTo(xpos_r, ypos_r, xpos_r + radius_r, ypos_r, radius_r);
+      context.fill();
+      context.closePath();
 
       //code of score
       context.font = "24px Arial";
-      context.fillStyle = "#aa6c39";
-      context.fillText(`${coinCount} coins earned`, xpos + 580, ypos + 15);
+      context.fillStyle = "white";
+      context.fillText(`Score: ${score}/10`, xpos - 350, ypos + 25);
+
+      //code of Main heading
+      context.font = "24px Arial";
+      context.fillStyle = "#FF4F18";
+      context.fillText("Level-3 Prefix-Suffix", xpos + 115, ypos + 25);
+
+      //code of CoinImage
+      var coinImage = new Image();
+      coinImage.src = coin;
+      context.drawImage(coinImage, xpos - 230, ypos, 50, 50);
 
       //code of moving result image
       let image = new Image();
@@ -326,7 +364,7 @@ const Level3MidContent = () => {
 
         if (!clickedDuringCycle) {
           // Show a message when the user didn't click on any bubble this cycle
-          toast.warning("You miss the previous word!!!", {
+          toast.warning("You miss the previous word!", {
             position: "top-center",
             autoClose: 1000,
             theme: "dark",
@@ -344,18 +382,21 @@ const Level3MidContent = () => {
         context.fillText("Correct!", imageX + 200, imageY + 160);
         context.font = "14px Arial";
         context.fillStyle = "black";
+        const originalFont = context.font;
+        context.font = "bold " + originalFont;
         context.fillText(
-          `${wordList.level3[randomNumber].root}->${
+          `${wordList.level3[randomNumber].root} : ${
             wordList.level3[randomNumber][wordList.level3[randomNumber].root]
           }`,
           imageX + 200,
           imageY + 180
         );
         context.fillText(
-          `${word}->${wordList.level3[randomNumber][word]}`,
+          `${word} : ${wordList.level3[randomNumber][word]}`,
           imageX + 200,
           imageY + 200
         );
+        context.font = originalFont;
       } else {
         context.font = "18px Arial";
         context.fillStyle = "red";
@@ -554,7 +595,6 @@ const Level3MidContent = () => {
         } else {
           playAudio(gameover);
           setCoinMessage(true);
-          setCoinCount(300);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
@@ -646,40 +686,28 @@ const Level3MidContent = () => {
       />
 
       <button
-        className="stylish-button"
+        className="exit-button"
         style={{
           position: "absolute",
           top: "14%",
-          left: "25%",
+          left: "90%",
           transform: "translate(-50%, -50%)",
         }}
         onClick={handleExit}
       >
         Exit
       </button>
-
       <button
         className="stylish-button"
         style={{
           position: "absolute",
           top: "14%",
-          left: "35%",
+          left: "75%",
           transform: "translate(-50%, -50%)",
         }}
         onClick={HandleHelp}
       >
         Help
-      </button>
-      <button
-        className="stylish-button"
-        style={{
-          position: "absolute",
-          top: "14%",
-          left: "65%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        Level-3
       </button>
 
       {congratulationsMessage ? (

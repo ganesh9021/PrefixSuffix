@@ -15,6 +15,20 @@
       "Prefixrootmeaning": "Not informed"
     },
     {
+      "root": "believable",
+      "prefix": "Un",
+      "word": "Unbelievable",
+      "rootmeaning": "being believed",
+      "Prefixrootmeaning": "not believable"
+    },
+    {
+      "root": "common",
+      "prefix": "Un",
+      "word": "Uncommon",
+      "rootmeaning": "Frequently found",
+      "Prefixrootmeaning": "Not frequent"
+    },
+    {
       "root": "marine",
       "prefix": "Sub",
       "word": "Submarine",
@@ -27,6 +41,13 @@
       "word": "Suburban",
       "rootmeaning": "City life",
       "Prefixrootmeaning": "Residential area"
+    },
+    {
+      "root": "side",
+      "prefix": "Sub",
+      "word": "Subside",
+      "rootmeaning": "make surface available",
+      "Prefixrootmeaning": "become less intense"
     },
     {
       "root": "mantle",
@@ -43,18 +64,26 @@
       "Prefixrootmeaning": "Declare ineligible"
     },
     {
-      "root": "vent",
-      "prefix": "Pre",
-      "word": "Prevent",
-      "rootmeaning": "Outlet for air,gas,liquid",
-      "Prefixrootmeaning": "Stop something from happening"
+      "root": "obey",
+      "prefix": "Dis",
+      "word": "Disobey",
+      "rootmeaning": "To comply with",
+      "Prefixrootmeaning": "To refuse"
     },
+
     {
       "root": "caution",
       "prefix": "Pre",
       "word": "Precaution",
       "rootmeaning": "State of being careful",
       "Prefixrootmeaning": "Action to minimize the risk"
+    },
+    {
+      "root": "cursor",
+      "prefix": "Pre",
+      "word": "Precursor",
+      "rootmeaning": "Movable indicator",
+      "Prefixrootmeaning": "Comes before as indication"
     },
     {
       "root": "pilot",
@@ -71,6 +100,13 @@
       "Prefixrootmeaning": "Colleague"
     },
     {
+      "root": "exist",
+      "prefix": "Co",
+      "word": "Coexist",
+      "rootmeaning": "To be present",
+      "Prefixrootmeaning": "To exist together"
+    },
+    {
       "root": "work",
       "prefix": "Re",
       "word": "Rework",
@@ -83,6 +119,13 @@
       "word": "Reignite",
       "rootmeaning": "Set something on fire",
       "Prefixrootmeaning": "Ignite something again"
+    },
+    {
+      "root": "plenish",
+      "prefix": "Re",
+      "word": "Replenish",
+      "rootmeaning": "To fill",
+      "Prefixrootmeaning": "Fill something again"
     }
   ],
   "level2": [
@@ -101,6 +144,13 @@
       "rootsuffixmeaning": "Arrange something properly"
     },
     {
+      "root": "Critic",
+      "suffix": "ize",
+      "word": "Criticize",
+      "rootmeaning": "Evaluate the merits",
+      "rootsuffixmeaning": "To express disapproval"
+    },
+    {
       "root": "Firm",
       "suffix": "ly",
       "word": "Firmly",
@@ -115,11 +165,11 @@
       "rootsuffixmeaning": "Free from harm manner"
     },
     {
-      "root": "Fast",
-      "suffix": "est",
-      "word": "Fastest",
-      "rootmeaning": "Moving quickly",
-      "rootsuffixmeaning": "Highest speed"
+      "root": "exact",
+      "suffix": "ly",
+      "word": "exactly",
+      "rootmeaning": "Precise",
+      "rootsuffixmeaning": "In a precise manner"
     },
     {
       "root": "Long",
@@ -127,6 +177,20 @@
       "word": "Longest",
       "rootmeaning": "Great length",
       "rootsuffixmeaning": "Having a great length"
+    },
+    {
+      "root": "Tall",
+      "suffix": "est",
+      "word": "Tallest",
+      "rootmeaning": "More than average height",
+      "rootsuffixmeaning": "Having a greater height"
+    },
+    {
+      "root": "Rich",
+      "suffix": "est",
+      "word": "Richest",
+      "rootmeaning": "Having more deal of money",
+      "rootsuffixmeaning": "Possessing the greatest wealth"
     },
     {
       "root": "Color",
@@ -141,6 +205,13 @@
       "word": "Wonderful",
       "rootmeaning": "Filled with admiration",
       "rootsuffixmeaning": "Amazement"
+    },
+    {
+      "root": "Joy",
+      "suffix": "ful",
+      "word": "Joyful",
+      "rootmeaning": "Happiness",
+      "rootsuffixmeaning": "Full of joy"
     },
     {
       "root": "Child",
@@ -171,11 +242,18 @@
       "rootsuffixmeaning": "Make something stronger"
     },
     {
-      "root": "Thick",
+      "root": "Length",
       "suffix": "en",
-      "word": "Thicken",
-      "rootmeaning": "Not thin",
-      "rootsuffixmeaning": "Make something thicker"
+      "word": "Lengthen",
+      "rootmeaning": "Physical Measurement",
+      "rootsuffixmeaning": "Make something long"
+    },
+    {
+      "root": "Enlight",
+      "suffix": "en",
+      "word": "Enlighten",
+      "rootmeaning": "To provide knowledge",
+      "rootsuffixmeaning": "To provide additional knowledge"
     }
   ],
   "level3": [
@@ -216,8 +294,8 @@
     },
     {
       "root": "world",
-      "prefix": "Underworld",
-      "word": "Under",
+      "prefix": "Under",
+      "word": "Underworld",
       "world": "Universe",
       "Underworld": "hidden world"
     },

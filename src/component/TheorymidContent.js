@@ -3,11 +3,11 @@ import React from "react";
 const TheorymidContent = () => {
   return (
     <div className="scrollbar-primary p-3" style={{ overflow: "auto" }}>
-      <div className="subheading">Objective</div>
-      <ul className="content">
+      <div className="fw-bolder">Objective</div>
+      <ul>
         <li>To use the prefix and suffix with a word</li>
       </ul>
-      <div className="subheading">Prefix</div>
+      <div className="fw-bolder">Prefix</div>
       <ul>
         <li>
           {" "}
@@ -15,12 +15,12 @@ const TheorymidContent = () => {
         </li>
         <li>
           The prefixes are usually two to three alphabets long. By using
-          prefixes, the meaning of words changed.
+          prefixe, the meaning of word changes.
         </li>
         <li>
           For example, The word “disclose” consists of the prefix “dis-” (which
           means “not”) combined with the root word “close”. The word “disclose”
-          means “not to close or not to reveal.”
+          means “not to open or not to reveal.”
         </li>
 
         <li>
@@ -141,11 +141,11 @@ const TheorymidContent = () => {
           </ol>
         </li>
       </ul>
-      <div className="subheading">Suffix</div>
+      <div className="fw-bolder">Suffix</div>
       <ul>
         <li>
-          A suffix is a group of letters that is placed after the root word of
-          the word.
+          A suffix is a group of letters that is placed after the root to make a
+          new word.
         </li>
         <li>Suffixes are usually two to four alphabets long.</li>
         <li>

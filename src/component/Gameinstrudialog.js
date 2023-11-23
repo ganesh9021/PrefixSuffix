@@ -52,10 +52,10 @@ const Gameinstrudialog = ({ open, handleClose }) => {
               If your answer is correct, you will earn +1 score.
             </ListItemText>
             <ListItemText sx={{ display: "list-item" }}>
-              The score is shown upperside of the game.
+              The score is shown upper left side of the game.
             </ListItemText>
             <ListItemText sx={{ display: "list-item" }}>
-              If you score is less than 6 then you need to reattempt the quiz
+              If you score is less than 6 then you need to reattempt the level
               else you can go to the next level.
             </ListItemText>
             <ListItemText sx={{ display: "list-item" }}>

@@ -19,8 +19,8 @@
   font-weight: bold;
   border: none;
   border-radius: 25px;
-  background-color: white; /* Background color */
-  color: #000000; /* Text color */
+  background-color: #4893FF; /* Background color */
+  color: white; /* Text color */
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -28,5 +28,37 @@
 }
 
 .stylish-button:hover {
-  background-color: #2980b9; /* Hover background color */
+  background-color: blue; /* Hover background color */
+}
+
+.exit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: tomato; /* Background color */
+  color: white; /* Text color */
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.exit-button:hover{
+  background-color: red;
+}
+
+.level-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  background-color: white; /* Background color */
+  color: black; /* Text color */
+  text-align: center;
+  text-decoration: none;
+  cursor: none;
 }

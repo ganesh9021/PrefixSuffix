@@ -15,6 +15,7 @@ import GoldCoinsEarned from "./GoldCoinsEarned";
 import backgroundImg from "../img/Prefix.jpg";
 import BalloonImg from "../img/BallonWord.png";
 import Gameinstrudialog from "./Gameinstrudialog";
+import coin from "../img/o.png";
 
 const Level1MidContent = () => {
   let navigate = useNavigate();
@@ -42,8 +43,6 @@ const Level1MidContent = () => {
   let [randomNumber, setRandomNumber] = useState(0);
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
-  //coins count
-  let [coinCount, setCoincount] = useState(0);
   //prefix array
   const [prefixArray, setPrefixArray] = useState([
     "Un",
@@ -228,15 +227,61 @@ const Level1MidContent = () => {
       context.fill();
       context.closePath();
 
-      //code of score
-      context.font = "24px Arial";
-      context.fillStyle = "#FF4F18";
-      context.fillText(`Score: ${score}/10`, xpos + 100, ypos + 25);
+      // Creating a rounded rectangle for score
+      var xpos_r = canvas.width / 2 - 550;
+      var ypos_r = canvas.height / 2 - 280;
+      var widthofscorebox_r = 200;
+      var heightofscorebox_r = 50;
+      var radius_r = 20; // Adjust the radius as needed
+      context.fillStyle = "#4893FF";
+      context.beginPath();
+      context.moveTo(xpos_r + radius_r, ypos_r);
+      context.lineTo(xpos_r + widthofscorebox_r - radius_r, ypos_r);
+      context.arcTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r,
+        xpos_r + widthofscorebox_r,
+        ypos_r + radius_r,
+        radius_r
+      );
+      context.lineTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r + heightofscorebox_r - radius_r
+      );
+      context.arcTo(
+        xpos_r + widthofscorebox_r,
+        ypos_r + heightofscorebox_r,
+        xpos_r + widthofscorebox_r - radius_r,
+        ypos_r + heightofscorebox_r,
+        radius_r
+      );
+      context.lineTo(xpos_r + radius_r, ypos_r + heightofscorebox_r);
+      context.arcTo(
+        xpos_r,
+        ypos_r + heightofscorebox_r,
+        xpos_r,
+        ypos_r + heightofscorebox_r - radius_r,
+        radius_r
+      );
+      context.lineTo(xpos_r, ypos_r + radius_r);
+      context.arcTo(xpos_r, ypos_r, xpos_r + radius_r, ypos_r, radius_r);
+      context.fill();
+      context.closePath();
 
       //code of score
       context.font = "24px Arial";
-      context.fillStyle = "#aa6c39";
-      context.fillText(`${coinCount} coins earned`, xpos + 600, ypos + 15);
+      context.fillStyle = "white";
+      context.fillText(`Score: ${score}/10`, xpos - 350, ypos + 25);
+
+      //code of Main heading
+      context.font = "24px Arial";
+      context.fillStyle = "#FF4F18";
+      context.fillText("Level-1 Prefix", xpos + 100, ypos + 25);
+
+      //code of CoinImage
+      var coinImage = new Image();
+      coinImage.src = coin;
+      context.drawImage(coinImage, xpos - 230, ypos, 50, 50);
 
       //code of moving result image
       let image = new Image();
@@ -254,7 +299,7 @@ const Level1MidContent = () => {
 
         if (!clickedDuringCycle) {
           // Show a message when the user didn't click on any bubble this cycle
-          toast.warning("You miss the previous word!!!", {
+          toast.warning("You miss the previous word!", {
             position: "top-center",
             autoClose: 1000,
             theme: "dark",
@@ -272,16 +317,23 @@ const Level1MidContent = () => {
         context.fillText("Correct!", imageX + 200, imageY + 160);
         context.font = "14px Arial";
         context.fillStyle = "black";
+        const originalFont = context.font;
+        // Set a bolder font
+        context.font = "bold " + originalFont;
+        // Draw the first text with the bolder font
         context.fillText(
-          `${wordList.level1[randomNumber].root}->${wordList.level1[randomNumber].rootmeaning}`,
+          `${wordList.level1[randomNumber].root} : ${wordList.level1[randomNumber].rootmeaning}`,
           imageX + 200,
           imageY + 180
         );
+        // Draw the second text with the original font
         context.fillText(
-          `${word}->${wordList.level1[randomNumber].Prefixrootmeaning}`,
+          `${word} : ${wordList.level1[randomNumber].Prefixrootmeaning}`,
           imageX + 200,
           imageY + 200
         );
+        // Restore the original font setting
+        context.font = originalFont;
       } else {
         context.font = "18px Arial";
         context.fillStyle = "red";
@@ -476,12 +528,11 @@ const Level1MidContent = () => {
         } else {
           setCoinMessage(true);
           playAudio(gameover);
-          setCoincount(100);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
             icon: "success",
-            confirmButtonText: "Level-2",
+            confirmButtonText: "Proceed to Level-2",
           }).then((result) => {
             if (result.isConfirmed) {
               navigate("/level2");
@@ -567,11 +618,11 @@ const Level1MidContent = () => {
       />
 
       <button
-        className="stylish-button"
+        className="exit-button"
         style={{
           position: "absolute",
           top: "14%",
-          left: "25%",
+          left: "90%",
           transform: "translate(-50%, -50%)",
         }}
         onClick={handleExit}
@@ -584,23 +635,12 @@ const Level1MidContent = () => {
         style={{
           position: "absolute",
           top: "14%",
-          left: "35%",
+          left: "75%",
           transform: "translate(-50%, -50%)",
         }}
         onClick={HandleHelp}
       >
         Help
-      </button>
-      <button
-        className="stylish-button"
-        style={{
-          position: "absolute",
-          top: "14%",
-          left: "65%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        Level-1
       </button>
 
       {congratulationsMessage ? (
