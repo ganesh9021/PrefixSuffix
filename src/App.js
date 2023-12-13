@@ -11,6 +11,7 @@ import logconfig from "./config/dbconfig";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import ReactGA from "react-ga4";
+import Procedure from "./component/Procedure";
 
 function App() {
   const [ip, setIP] = useState("");
@@ -57,8 +58,8 @@ function App() {
       <Route exact path="/" element={<Homepage />} />
       <Route exact path="/letusverify" element={<Homepage />} />
       <Route exact path="/theory" element={<TheoryPage />} />
+      <Route exact path="/procedure" element={<Procedure />} />
       <Route exact path="/quiz" element={<MathsQuiz />} />
-      {/* <Route exact path="/launchpage/englishactivity" element={<MainPage />} /> */}
       <Route exact path="/launchpage/englishactivity" element={<Level_1 />} />
       <Route path="/level2" element={<Level_2 />} />
       <Route path="/level3" element={<Level_3 />} />

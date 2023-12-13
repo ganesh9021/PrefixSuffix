@@ -4,9 +4,7 @@ const TheorymidContent = () => {
   return (
     <div className="scrollbar-primary p-3" style={{ overflow: "auto" }}>
       <div className="fw-bolder">Objective</div>
-      <ul>
-        <li>To use the prefix and suffix with a word</li>
-      </ul>
+      <ul className="m-0">To use the prefix and suffix with a word.</ul>
       <div className="fw-bolder">Prefix</div>
       <ul>
         <li>
@@ -22,9 +20,12 @@ const TheorymidContent = () => {
           means “not”) combined with the root word “close”. The word “disclose”
           means “not to open or not to reveal.”
         </li>
-
+      </ul>
+      <div>
+        <b>Examples:</b>
+      </div>
+      <ul>
         <li>
-          <b>Examples:</b>
           <ol>
             <li>Un</li>
             <ul>
@@ -156,8 +157,12 @@ const TheorymidContent = () => {
           combined with the suffix “-less” (which means “without”); the word
           “careless” means “having no care.”
         </li>
+      </ul>
+      <div>
+        <b>Examples:</b>
+      </div>
+      <ul>
         <li>
-          <b>Examples:</b>
           <ol>
             <li>ful</li>
             <ul>

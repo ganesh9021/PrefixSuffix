@@ -18,6 +18,7 @@ const TheoryPage = () => {
       RSM_help_tt="Help"
       RSM_theory_tt="Theory"
       RSM_vivavoce_tt="Viva voce"
+      RSM_procedure_tt="Procedure"
       RSM_ok="OK"
       M_midcontent_comp={<TheorymidContent />}
       RSM_Intruc_popup_title_string="Instructions for quiz"

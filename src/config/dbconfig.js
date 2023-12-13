@@ -1,5 +1,5 @@
 module.exports = {
-  logurl: "ws://10.212.9.179:8000",
+  logurl: "wss://logapi.olabs.edu.in",
   activityName: "Prefix-Suffix",
   subject: "English",
   activityUniqueName: "CDAC-OlabsNxtG--En-12",

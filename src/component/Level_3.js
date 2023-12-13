@@ -18,6 +18,7 @@ const Level_3 = () => {
         M_midheight="90%"
         RSM_theory_tt="Theory"
         RSM_vivavoce_tt="Viva voce"
+        RSM_procedure_tt="Procedure"
         RSM_ok="OK"
         M_midcontent_comp={<Level3MidContent />}
         RSM_Intruc_popup_title_string="Instructions for quiz"
