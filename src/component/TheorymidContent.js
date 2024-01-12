@@ -2,7 +2,10 @@ import React from "react";
 
 const TheorymidContent = () => {
   return (
-    <div className="scrollbar-primary p-3" style={{ overflow: "auto" }}>
+    <div
+      className="scrollbar-primary p-3"
+      style={{ overflow: "auto", width: "100%" }}
+    >
       <div className="fw-bolder">Objective</div>
       <ul className="m-0">To use the prefix and suffix with a word.</ul>
       <div className="fw-bolder">Prefix</div>

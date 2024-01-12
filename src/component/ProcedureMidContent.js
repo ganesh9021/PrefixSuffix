@@ -25,7 +25,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ border: "1px solid black" }}
+              className="img-fluid"
               src={balloon}
               alt="Image not available"
             />
@@ -39,7 +39,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ width: "50%", border: "1px solid black" }}
+              className="img-fluid"
               src={prefix}
               alt="Image not available"
             />
@@ -53,7 +53,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ width: "50%", border: "1px solid black" }}
+              className="img-fluid"
               src={suffix}
               alt="Image not available"
             />
@@ -67,7 +67,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ width: "50%", border: "1px solid black" }}
+              className="img-fluid"
               src={prefixsuffix}
               alt="Image not available"
             />
@@ -86,7 +86,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ width: "50%", border: "1px solid black" }}
+              className="img-fluid"
               src={correctfb}
               alt="Image not available"
             />
@@ -97,7 +97,7 @@ const ProcedureMidContent = () => {
         <div className="text-center m-2">
           <div>
             <img
-              style={{ width: "50%", border: "1px solid black" }}
+              className="img-fluid"
               src={incorrectfb}
               alt="Image not available"
             />
