@@ -16,8 +16,14 @@ import backgroundImg from "../img/Suffix.jpg";
 import BalloonImg from "../img/BallonWord.png";
 import Gameinstrudialog from "./Gameinstrudialog";
 import coin from "../img/100.png";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import logconfig from "../config/dbconfig";
+import { SendLogData } from "../config/wslog.js";
+import ReactGA from "react-ga4";
 
 const Level2Midcontent = () => {
+  const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
+  let [pageName, setpageName] = useState("Level-2");
   let navigate = useNavigate();
   let canvasRef = useRef(null);
   //cube and image speed
@@ -44,7 +50,7 @@ const Level2Midcontent = () => {
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
   //coins count
-  let [coinCount, setCoinCount] = useState(100);
+
   //help popup open-close
   var [open, setOpen] = useState(false);
   //suffix array
@@ -134,6 +140,8 @@ const Level2Midcontent = () => {
 
   useEffect(() => {
     if (open) return;
+    if (isPaused) return;
+
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
@@ -349,8 +357,16 @@ const Level2Midcontent = () => {
     };
 
     const drawBubbles = () => {
+      canvas.style.cursor = "default";
       bubbles.forEach((bubble) => {
-        const { x, y, width, height, radius } = bubble;
+        const { x, y, width, height, radius, isHovered } = bubble;
+        if (isHovered) {
+          context.fillStyle = "#FFC400"; // Change the fill color when hovered
+          canvas.style.cursor = "pointer"; // Set the cursor to pointer when hovered
+        } else {
+          context.fillStyle = "#FFA200";
+        }
+        
         context.beginPath();
         // context.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
         context.moveTo(x + radius, y);
@@ -497,14 +513,6 @@ const Level2Midcontent = () => {
       setBubbles(updatedBubbles);
     };
 
-    function handleClose() {
-      setOpen(false);
-    }
-
-    function HandleHelp() {
-      setOpen(true);
-    }
-
     const getRandomWord = () => {
       let randomIndex = Math.floor(Math.random() * wordList.level2.length);
       let randomWord = wordList.level2[randomIndex].root;
@@ -535,7 +543,6 @@ const Level2Midcontent = () => {
         } else {
           playAudio(gameover);
           setCoinMessage(true);
-          setCoinCount(200);
           Swal.fire({
             title: "Good job!",
             text: `Your score is ${score}`,
@@ -590,14 +597,90 @@ const Level2Midcontent = () => {
 
   function handleClose() {
     setOpen(false);
+    ReactGA.event({
+      action: `Eng12|PrefixSuffix|Clicked on Start button of game instructions pop-up.`,
+      category: `Eng12|Start button clicked`,
+      label: `Eng12|Clicked on Start button of game instructions pop-up`,
+    });
+
+    SendLogData(
+      sendJsonMessage,
+      pageName,
+      "Start",
+      "Clicked",
+      "Clicked to close the game instructions pop-up and start or resume the game",
+      [{ input: "", answer: "", result: "" }],
+      [
+        {
+          popuptype: "",
+          popuptext: "",
+        },
+      ],
+      [{ hint: "" }]
+    );
   }
 
   function HandleHelp() {
     setOpen(true);
+    ReactGA.event({
+      action: `Eng12|PrefixSuffix|Clicked on Help button.`,
+      category: `Eng12|Help button clicked`,
+      label: `Eng12|Clicked on Help button`,
+    });
+
+    SendLogData(
+      sendJsonMessage,
+      pageName,
+      "Help",
+      "Clicked",
+      "Clicked to read the game instructions",
+      [{ input: "", answer: "", result: "" }],
+      [
+        {
+          popuptype: "",
+          popuptext: "",
+        },
+      ],
+      [{ hint: "" }]
+    );
   }
 
   function handleExit() {
-    navigate("/");
+    setIsPaused(true);
+    Swal.fire({
+      title: "Do you want to exit?",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/");
+      } else if (result.isDenied) {
+        setIsPaused(false);
+        Swal.close();
+      }
+    });
+    ReactGA.event({
+      action: `Eng12|PrefixSuffix|Clicked on Exit button.`,
+      category: `Eng12|Exit button clicked`,
+      label: `Eng12|Clicked on Exit button`,
+    });
+
+    SendLogData(
+      sendJsonMessage,
+      pageName,
+      "Exit",
+      "Clicked",
+      "Clicked to quit the game",
+      [{ input: "", answer: "", result: "" }],
+      [
+        {
+          popuptype: "",
+          popuptext: "",
+        },
+      ],
+      [{ hint: "" }]
+    );
   }
 
   return (
