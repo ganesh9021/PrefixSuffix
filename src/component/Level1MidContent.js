@@ -16,20 +16,19 @@ import backgroundImg from "../img/Prefix.jpg";
 import BalloonImg from "../img/BallonWord.png";
 import Gameinstrudialog from "./Gameinstrudialog";
 import coin from "../img/o.png";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import useWebSocket from "react-use-websocket";
 import logconfig from "../config/dbconfig";
 import { SendLogData } from "../config/wslog.js";
 import ReactGA from "react-ga4";
 
 const Level1MidContent = () => {
   const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
-  let [pageName, setpageName] = useState("Level-1");
+  const pageName = "Level-1";
+  let requestId;
   let navigate = useNavigate();
   let canvasRef = useRef(null);
-  //cube and image speed
-  let [cubeSpeed, setCubeSpeed] = useState(1.0);
-  let [imageSpeed, setImageSpeed] = useState(4.0);
-  //making bubbles disable after one click
+  let cubeSpeed = 1.0;
+  let imageSpeed = 4.0;
   const [clickDisabled, setClickDisabled] = useState(false);
   //setting random word on cube
   let [word, setWord] = useState("known");
@@ -49,91 +48,70 @@ const Level1MidContent = () => {
   let [randomNumber, setRandomNumber] = useState(0);
   //coin message
   let [coinMessage, setCoinMessage] = useState(false);
-  //prefix array
-  const [prefixArray, setPrefixArray] = useState([
-    "Un",
-    "Dis",
-    "Re",
-    "Pre",
-    "Sub",
-    "Co",
-  ]);
   //help popup open-close
   var [open, setOpen] = useState(true);
+  //prefix array
+  const prefixArray = ["Un", "Dis", "Re", "Sub", "Co", "Pre"];
+  shuffleWords(prefixArray);
+  const [canvasDimensions, setCanvasDimensions] = React.useState({
+    width: 1160,
+    height: 560,
+  });
   //Image is far away from canvas bcuz i wanted to show it only on click.
   let [imagePosition, setImagePosition] = useState({
     x: 400,
     y: 20000,
   });
-  let requestId;
-
+  const [bubbles, setBubbles] = useState([]);
   const [state, setState] = useState({
     gravity: 1,
     speedX: 0,
     speedY: 0,
-    x: 560,
+    x: canvasDimensions.width / 2,
     y: 0,
     width: 300,
     height: 150,
   });
 
-  shuffleWords(prefixArray);
-  const [bubbles, setBubbles] = useState([
-    {
-      x: 50,
-      y: 100,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[0],
-      isHovered: false,
-    },
-    {
-      x: 50,
-      y: 260,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[1],
-      isHovered: false,
-    },
-    {
-      x: 50,
-      y: 420,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[2],
-      isHovered: false,
-    },
-    {
-      x: 1000,
-      y: 100,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[3],
-      isHovered: false,
-    },
-    {
-      x: 1000,
-      y: 260,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[4],
-      isHovered: false,
-    },
-    {
-      x: 1000,
-      y: 420,
-      height: 50,
-      width: 100,
-      radius: 20,
-      text: prefixArray[5],
-      isHovered: false,
-    },
-  ]);
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const calculateBubblePositions = () => {
+      const newBubbles = prefixArray.map((prefix, index) => {
+        //console.log(index);
+        const x =
+          index % 2 === 0
+            ? canvasDimensions.width * 0.02
+            : canvasDimensions.width * 0.85;
+        const y =
+          index < 2
+            ? canvasDimensions.height * 0.3
+            : index < 4
+            ? canvasDimensions.height * 0.5
+            : index < 5
+            ? canvasDimensions.height * 0.7
+            : canvasDimensions.height * 0.7;
+
+        return {
+          x,
+          y,
+          height: 50,
+          width: 100,
+          radius: 20,
+          text: prefix,
+          isHovered: false,
+        };
+      });
+      setBubbles(newBubbles);
+    };
+    calculateBubblePositions();
+  }, [canvasDimensions]);
 
   useEffect(() => {
     if (open) return;
@@ -172,7 +150,8 @@ const Level1MidContent = () => {
       }
 
       const { x: imageX, y: imageY } = imagePosition;
-      const { x, y, width, height } = state;
+      //  const { x, y, width, height } = state;
+      const { y, width, height } = state;
 
       // Calculate the new positions
       let newY = y + cubeSpeed; // Move the cube downwards
@@ -180,8 +159,8 @@ const Level1MidContent = () => {
       // Calculate new image position
       if (!isPaused) {
         let newImageY = imageY - imageSpeed; // Move the image upwards
-        if (newImageY < canvas.height / 2) {
-          newImageY = canvas.height / 2; // Stop the image at the middle
+        if (newImageY < canvasDimensions.height / 2 - 70) {
+          newImageY = canvasDimensions.height / 2 - 70; // Stop the image at the middle
           setTimeout(() => {
             setImagePosition({ x: 400, y: 20000 });
           }, 3000);
@@ -199,14 +178,20 @@ const Level1MidContent = () => {
       // Wait for the image to load (you can use an event listener)
       var wordImage = new Image();
       wordImage.src = BalloonImg;
-      context.drawImage(wordImage, x - 105, newY, width, height);
+      context.drawImage(
+        wordImage,
+        canvasDimensions.width / 2 - 50,
+        newY,
+        width,
+        height
+      );
       context.font = "16px Arial";
       context.fillStyle = "black";
-      context.fillText(word, x + 50, newY + 110);
+      context.fillText(word, canvasDimensions.width / 2 + 100, newY + 110);
 
       // Create a rounded rectangle with fillet radius
-      var xpos = canvas.width / 2 - 100;
-      var ypos = canvas.height / 2 - 280;
+      var xpos = canvasDimensions.width / 2 - 100;
+      var ypos = 0;
       var widthofscorebox = 200;
       var heightofscorebox = 50;
       var radius = 20; // Adjust the radius as needed
@@ -235,9 +220,9 @@ const Level1MidContent = () => {
       context.closePath();
 
       // Creating a rounded rectangle for score
-      var xpos_r = canvas.width / 2 - 550;
-      var ypos_r = canvas.height / 2 - 280;
-      var widthofscorebox_r = 200;
+      var xpos_r = canvasDimensions.width * 0.01;
+      var ypos_r = 0;
+      var widthofscorebox_r = 140;
       var heightofscorebox_r = 50;
       var radius_r = 20; // Adjust the radius as needed
       context.fillStyle = "#4893FF";
@@ -278,7 +263,7 @@ const Level1MidContent = () => {
       //code of score
       context.font = "24px Arial";
       context.fillStyle = "white";
-      context.fillText(`Score: ${score}/10`, xpos - 350, ypos + 25);
+      context.fillText(`Score: ${score}/10`, xpos_r + 70, ypos_r + 25);
 
       //code of Main heading
       context.font = "24px Arial";
@@ -288,12 +273,112 @@ const Level1MidContent = () => {
       //code of CoinImage
       var coinImage = new Image();
       coinImage.src = coin;
-      context.drawImage(coinImage, xpos - 230, ypos, 50, 50);
+      context.drawImage(coinImage, xpos_r + 140, ypos_r, 50, 50);
+
+      // Draw "Exit" button with rounded corners
+      const exitButtonX = canvasDimensions.width * 0.9;
+      const exitButtonY = canvasDimensions.height * 0.01;
+      const exitButtonWidth = 80;
+      const exitButtonHeight = 30;
+      const cornerRadius = 10; // Adjust the corner radius as needed
+      context.fillStyle = "tomato";
+      context.beginPath();
+      context.moveTo(exitButtonX + cornerRadius, exitButtonY);
+      context.arcTo(
+        exitButtonX + exitButtonWidth,
+        exitButtonY,
+        exitButtonX + exitButtonWidth,
+        exitButtonY + exitButtonHeight,
+        cornerRadius
+      );
+      context.arcTo(
+        exitButtonX + exitButtonWidth,
+        exitButtonY + exitButtonHeight,
+        exitButtonX,
+        exitButtonY + exitButtonHeight,
+        cornerRadius
+      );
+      context.arcTo(
+        exitButtonX,
+        exitButtonY + exitButtonHeight,
+        exitButtonX,
+        exitButtonY,
+        cornerRadius
+      );
+      context.arcTo(
+        exitButtonX,
+        exitButtonY,
+        exitButtonX + cornerRadius,
+        exitButtonY,
+        cornerRadius
+      );
+      context.fill();
+      context.font = "16px Arial";
+      context.fillStyle = "white";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(
+        "Exit",
+        exitButtonX + exitButtonWidth / 2,
+        exitButtonY + exitButtonHeight / 2
+      );
+
+      // Draw "Help" button with rounded corners
+      const helpButtonX = canvasDimensions.width * 0.75;
+      const helpButtonY = canvasDimensions.height * 0.01;
+      const helpButtonWidth = 80;
+      const helpButtonHeight = 30;
+      context.fillStyle = "blue";
+      context.beginPath();
+      context.arc(
+        helpButtonX + cornerRadius,
+        helpButtonY + cornerRadius,
+        cornerRadius,
+        Math.PI,
+        1.5 * Math.PI
+      );
+      context.arc(
+        helpButtonX + helpButtonWidth - cornerRadius,
+        helpButtonY + cornerRadius,
+        cornerRadius,
+        1.5 * Math.PI,
+        2 * Math.PI
+      );
+      context.arc(
+        helpButtonX + helpButtonWidth - cornerRadius,
+        helpButtonY + helpButtonHeight - cornerRadius,
+        cornerRadius,
+        0,
+        0.5 * Math.PI
+      );
+      context.arc(
+        helpButtonX + cornerRadius,
+        helpButtonY + helpButtonHeight - cornerRadius,
+        cornerRadius,
+        0.5 * Math.PI,
+        Math.PI
+      );
+      context.fill();
+      context.font = "16px Arial";
+      context.fillStyle = "white";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(
+        "Help",
+        helpButtonX + helpButtonWidth / 2,
+        helpButtonY + helpButtonHeight / 2
+      );
 
       //code of moving result image
       let image = new Image();
       image.src = result ? RightFBImage : WrongFBImage;
-      context.drawImage(image, imageX, imageY, 400, 290);
+      context.drawImage(
+        image,
+        canvasDimensions.width / 2 - 200,
+        imageY,
+        400,
+        290
+      );
       context.font = "14px Arial";
       context.strokeStyle = "black";
 
@@ -321,7 +406,7 @@ const Level1MidContent = () => {
       if (result) {
         context.font = "18px Arial";
         context.fillStyle = "green";
-        context.fillText("Correct!", imageX + 200, imageY + 160);
+        context.fillText("Correct!", canvasDimensions.width / 2, imageY + 160);
         context.font = "14px Arial";
         context.fillStyle = "black";
         const originalFont = context.font;
@@ -330,13 +415,13 @@ const Level1MidContent = () => {
         // Draw the first text with the bolder font
         context.fillText(
           `${wordList.level1[randomNumber].root} : ${wordList.level1[randomNumber].rootmeaning}`,
-          imageX + 200,
+          canvasDimensions.width / 2,
           imageY + 180
         );
         // Draw the second text with the original font
         context.fillText(
           `${word} : ${wordList.level1[randomNumber].Prefixrootmeaning}`,
-          imageX + 200,
+          canvasDimensions.width / 2,
           imageY + 200
         );
         // Restore the original font setting
@@ -344,20 +429,24 @@ const Level1MidContent = () => {
       } else {
         context.font = "18px Arial";
         context.fillStyle = "red";
-        context.fillText("Incorrect!", imageX + 200, imageY + 160);
+        context.fillText(
+          "Incorrect!",
+          canvasDimensions.width / 2,
+          imageY + 160
+        );
         context.font = "14px Arial";
         context.fillStyle = "black";
-        context.fillText(word, imageX + 200, imageY + 180);
+        context.fillText(word, canvasDimensions.width / 2, imageY + 180);
         context.fillText(
           "Meaningful word not formed.",
-          imageX + 200,
+          canvasDimensions.width / 2,
           imageY + 200
         );
       }
     };
 
     const drawBubbles = () => {
-      canvas.style.cursor = "default"
+      canvas.style.cursor = "default";
       bubbles.forEach((bubble) => {
         const { x, y, width, height, radius, isHovered } = bubble;
         if (isHovered) {
@@ -503,7 +592,35 @@ const Level1MidContent = () => {
         // Calculate the distance to the rounded corners using Pythagoras' theorem
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance <= rect.radius) {
+        // Check if the mouse is over the exit button
+        const exitButtonX = canvasDimensions.width * 0.9;
+        const exitButtonY = canvasDimensions.height * 0.01;
+        const exitButtonWidth = 80;
+        const exitButtonHeight = 40;
+
+        const isHoveringExitButton =
+          mouseX >= exitButtonX &&
+          mouseX <= exitButtonX + exitButtonWidth &&
+          mouseY >= exitButtonY &&
+          mouseY <= exitButtonY + exitButtonHeight;
+
+        // Check if the mouse is over the help button
+        const helpButtonX = canvasDimensions.width * 0.75;
+        const helpButtonY = canvasDimensions.height * 0.01;
+        const helpButtonWidth = 80;
+        const helpButtonHeight = 40;
+
+        const isHoveringHelpButton =
+          mouseX >= helpButtonX &&
+          mouseX <= helpButtonX + helpButtonWidth &&
+          mouseY >= helpButtonY &&
+          mouseY <= helpButtonY + helpButtonHeight;
+
+        if (
+          distance <= rect.radius ||
+          isHoveringHelpButton ||
+          isHoveringExitButton
+        ) {
           return { ...rect, isHovered: true };
         } else {
           return { ...rect, isHovered: false };
@@ -574,18 +691,36 @@ const Level1MidContent = () => {
     };
 
     canvas.addEventListener("click", handleBubbleClick);
+    canvas.addEventListener("click", handleExitButtonClick);
+    canvas.addEventListener("click", handleHelpButtonClick);
     canvas.addEventListener("mousemove", handleBubbleHover);
 
     requestAnimationFrame(gameLoop);
 
     return () => {
       canvas.removeEventListener("click", handleBubbleClick);
+      canvas.removeEventListener("click", handleExitButtonClick);
+      canvas.removeEventListener("click", handleHelpButtonClick);
       canvas.removeEventListener("mousemove", handleBubbleHover);
+
       if (requestId) {
         cancelAnimationFrame(requestId); // This will stop the animation loop
       }
     };
-  }, [state, word, open]);
+  }, [state, word, open, canvasDimensions]);
+
+  const handleResize = () => {
+    const canvasContainer = canvasRef.current.parentNode;
+    const newWidth = canvasContainer.offsetWidth;
+    const newHeight = canvasContainer.offsetHeight;
+    // console.log("newWidth", newWidth);
+    // console.log("newHeight", newHeight);
+    setCanvasDimensions((prevDimensions) => ({
+      ...prevDimensions,
+      width: newWidth,
+      height: newHeight,
+    }));
+  };
 
   function shuffleWords(wordArray) {
     for (let i = wordArray.length - 1; i > 0; i--) {
@@ -683,6 +818,55 @@ const Level1MidContent = () => {
     );
   }
 
+  const handleExitButtonClick = (event) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Check if the click is inside the "Exit" button
+    const exitButtonX = canvasDimensions.width * 0.9;
+    const exitButtonY = canvasDimensions.height * 0.01;
+    const exitButtonWidth = 80;
+    const exitButtonHeight = 30;
+
+    if (
+      mouseX >= exitButtonX &&
+      mouseX <= exitButtonX + exitButtonWidth &&
+      mouseY >= exitButtonY &&
+      mouseY <= exitButtonY + exitButtonHeight
+    ) {
+      handleExit();
+    }
+  };
+
+  const handleHelpButtonClick = (event) => {
+    console.log(canvasDimensions.height);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Check if the click is inside the "Help" button
+    const helpButtonX = canvasDimensions.width * 0.75;
+    const helpButtonY = canvasDimensions.height * 0.01;
+    const helpButtonWidth = 80;
+    const helpButtonHeight = 30;
+
+    if (
+      mouseX >= helpButtonX &&
+      mouseX <= helpButtonX + helpButtonWidth &&
+      mouseY >= helpButtonY &&
+      mouseY <= helpButtonY + helpButtonHeight
+    ) {
+      HandleHelp();
+    }
+  };
+
   return (
     <div
       className="d-flex justify-content-center align-items-center canvas-background"
@@ -697,8 +881,8 @@ const Level1MidContent = () => {
     >
       <canvas
         ref={canvasRef}
-        width={1160}
-        height={560}
+        width={canvasDimensions.width}
+        height={canvasDimensions.height}
         style={{
           border: "2px solid #000",
           backgroundColor: "transparent",
@@ -707,32 +891,6 @@ const Level1MidContent = () => {
           backgroundRepeat: "no-repeat",
         }}
       />
-
-      <button
-        className="exit-button"
-        style={{
-          position: "absolute",
-          top: "14%",
-          left: "90%",
-          transform: "translate(-50%, -50%)",
-        }}
-        onClick={handleExit}
-      >
-        Exit
-      </button>
-
-      <button
-        className="stylish-button"
-        style={{
-          position: "absolute",
-          top: "14%",
-          left: "75%",
-          transform: "translate(-50%, -50%)",
-        }}
-        onClick={HandleHelp}
-      >
-        Help
-      </button>
 
       {congratulationsMessage ? (
         <Fragment>

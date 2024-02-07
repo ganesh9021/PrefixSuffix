@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ActStartPopupContent from "./ActStartPopupContent";
 import { Launchpage } from "english-olabsnxtg-library";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import logconfig from "../config/dbconfig";
 import { SendLogData } from "../config/wslog.js";
+import Swal from "sweetalert2";
 
 const Homepage = () => {
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   const { sendJsonMessage } = useWebSocket(logconfig.logurl, { share: true });
   var arr = ["Students will be able to use the prefix and suffix with a word."];
+  useEffect(() => {
+    if (isMobile) {
+      // alert("Please play a game in landscape mode for better user experience.");
+      Swal.fire({
+        text: "Please play a game in landscape mode for better user experience.",
+      });
+    }
+  }, []);
   return (
     <div>
       <Launchpage
